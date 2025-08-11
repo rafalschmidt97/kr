@@ -1,0 +1,4 @@
+<!-- Override to add year -->
+<div class="md-copyright">
+{% if config.copyright %}<div class="md-copyright__highlight">© {{ config.copyright }} {{ build_date_utc.strftime('%Y') }}</div>{% endif %}
+</div>

@@ -1,0 +1,21 @@
+<!-- Override to remove last update -->
+<!-- Source file information -->
+<div class="md-source-file">
+    <hr />
+    <small>
+        {% if page.meta and page.meta.date %}
+            {{ lang.t("source.file.date.created") }}:
+            {{ page.meta.date }}
+        {% elif page.meta.git_revision_date_localized %}
+            <!-- mkdocs-git-revision-date-localized-plugin -->
+            {% if page.meta.git_creation_date_localized %}
+                {{ lang.t("source.file.date.created") }}:
+                {{ page.meta.git_creation_date_localized }}
+            {% endif %}
+            <!-- mkdocs-git-revision-date-plugin -->
+        {% elif page.meta.revision_date %}
+            {{ lang.t("source.file.date.created") }}:
+            {{ page.meta.revision_date }}
+        {% endif %}
+    </small>
+</div>

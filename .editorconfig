@@ -1,0 +1,33 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+end_of_line = lf
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# Shell script files
+[*.sh]
+indent_size = 2
+
+[*.md]
+# indent_size = 6 # prettier markdown is broken and 4 doesn't work properly on lists
+indent_size = 4 # prettier markdown is broken and 4 doesn't work properly on lists
+
+# Custom rules
+[*.cs]
+# File-scoped namespaces (https://ardalis.com/dotnet-format-and-file-scoped-namespaces/)
+csharp_style_namespace_declarations = file_scoped:warning
+
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = none
+
+# CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
+dotnet_diagnostic.CS1574.severity = none
+
+# SA1313: Should begin with lower-case letter (for LoggingEnricher and DataGeneratorHook)
+dotnet_diagnostic.SA1313.severity = none

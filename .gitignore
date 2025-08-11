@@ -1,0 +1,6 @@
+.DS_Store
+site/
+_site/
+node_modules/
+.vscode/ltex*
+.cache/

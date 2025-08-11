@@ -1,0 +1,65 @@
+
+.glowCookies__banner h3 {
+    display: none;
+}
+
+.glowCookies__banner__1>p {
+    font-size: 0.7rem !important;
+}
+
+.glowCookies__banner {
+    border-radius: 0 !important;
+}
+
+.glowCookies__banner button {
+    border-radius: 0 !important;
+}
+
+@media (max-width: 455px) {
+    .glowCookies__banner .btn__section {
+        flex-direction: row !important;
+    }
+
+    .glowCookies__banner button {
+        width: 49% !important;
+    }
+
+    .glowCookies__banner .btn__section .btn__accept {
+        margin-bottom: 0 !important;
+    }
+}
+
+#prebannerBtn,
+.prebanner.animation {
+    transition: none !important;
+}
+
+#prebannerBtn:hover,
+.prebanner.animation:hover {
+    transform: none !important;
+}
+
+
+#prebannerBtn,
+.prebanner {
+    position: static !important;
+    display: block;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    margin-left: auto !important;
+    margin-top: -2.1rem !important;
+    margin-right: 2.4rem !important;
+    max-width: 61rem !important;
+}
+
+@media screen and (min-width: 60em) {
+    #prebannerBtn,
+    .prebanner {
+        margin-top: -2.4rem !important;
+        margin-right: 3.8rem !important;
+    }
+}

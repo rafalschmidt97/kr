@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+<!------------------------ Title -->
+{% block htmltitle %}
+  {% if page.meta and page.meta.title %}
+    <title>{{ page.meta.title }} | {{ config.site_name }}</title>
+  {% elif page.title and not page.is_homepage %}
+    <title>{{ page.title | striptags }} | {{ config.site_name }}</title>
+  {% else %}
+    <title>{{ config.site_name }}</title>
+  {% endif %}
+{% endblock htmltitle %}
+
+{# <!-- Page description -->
+{% if page.meta and page.meta.description %}
+  <meta name="description" content="{{ page.meta.description }}" />
+{% elif config.site_description %}
+  <meta name="description" content="{{ config.site_description }}" />
+{% endif %} #}
+
+<!------------------------ extrahead -->
+{% block extrahead %}
+  <meta name="robots" content="index, follow" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png" />
+
+  {% if page and page.meta and page.meta.title %}
+    {% set title = page.meta.title + " | " + config.site_name %}
+  {% elif page and page.title and not page.is_homepage %}
+    {% set title = (page.title | striptags) + " | " + config.site_name %}
+  {% else %}
+    {% set title = config.site_name %}
+  {% endif %}
+
+  {% if page and page.meta and page.meta.description %}
+    {% set description = page.meta.description %}
+  {% elif page and page.summary and not page.is_homepage %}
+    {% set description = page.summary %}
+  {% else %}
+    {% set description = config.site_description %}
+  {% endif %}
+
+  {% if page and page.is_homepage %}
+    <meta property="og:type" content="website" />
+  {% else %}
+    <meta property="og:type" content="article" />
+  {% endif %}
+
+  <meta property="og:title" content="{{ title }}" />
+  <meta name="twitter:title" content="{{ title }}" />
+  <meta property="og:description" content="{{ description }}" />
+  <meta name="twitter:description" content="{{ description }}" />
+  <meta property="og:url" content="{{ page.canonical_url }}" />
+  <meta name="twitter:card" content="summary" />
+  {% if page.meta and page.meta.image %}
+    <meta property="og:image" content="{{ page.meta.image }}" />
+    <meta name="twitter:image" content="{{ page.meta.image }}" />
+    <link rel="preload" as="image" href="{{ page.meta.image }}" />
+  {% else %}
+    <meta property="og:image" content="../static/avatar.png" />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="800" />
+    <meta name="twitter:image" content="../static/avatar.png" /> 
+  {% endif %}
+
+  <!-- <meta property="article:section" content="posts"> -->
+  <!-- <meta property="article:published_time" content=""> -->
+  <!-- <meta property="article:modified_time" content=""> -->
+  <!-- <meta itemprop="datePublished" content=""> -->
+  <!-- <meta itemprop="dateModified" content=""> -->
+  <!-- <meta itemprop="wordCount" content=""> -->
+  <!-- <meta itemprop="image" content=""> -->
+
+  {% if page and page.meta and page.meta.tags %}
+    <meta itemprop="keywords" content="{{ page.meta.tags | join(',') }}" />
+    <meta name="keywords" content="{{ page.meta.tags | join(',') }}" />
+  {% else %}
+    <meta itemprop="keywords" content="oprogramowanie,it,programowanie" />
+    <meta name="keywords" content="oprogramowanie,it,programowanie" />
+  {% endif %}
+
+  <script src="https://cdn.jsdelivr.net/gh/manucaralmo/GlowCookies@3.1.7/src/glowCookies.min.js"></script>
+  <script>
+      glowCookies.start('pl', { 
+          style: 1,
+          position: 'left',
+          analytics: 'G-YM5ZY68GZJ', 
+          policyLink: 'https://policies.google.com/technologies/cookies?hl=pl-PL', //  'https://policies.google.com/technologies/partner-sites?hl=pl-PL' and https://marketingplatform.google.com/about/analytics/terms/pl/
+          bannerDescription: 'Ta strona używa plików cookie od zewnętrznych dostawców w celu analizy ruchu.',
+          bannerLinkText: 'Więcej o plikach cookie.',
+          bannerBackground: '#ffffff',
+          bannerColor: '#000000',
+          acceptBtnText: 'Zaakceptuj',
+          acceptBtnColor: '#ffffff',
+          acceptBtnBackground: '#000000',
+          rejectBtnText: 'Odrzuć',
+          rejectBtnBackground: '#E8E8E8',
+          rejectBtnColor: '#636363',
+          manageText: ' ',
+          manageBackground: 'transparent',
+          manageColor: '#000000',
+      });
+  </script>
+
+{% endblock extrahead %}
+<!------------------------ Header -->
+{% block header %}
+  <!-- Determine base classes -->
+  {% set class = "md-header" %}
+  <header class="{{ class }}" data-md-component="header">
+    <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header') }}">
+      <!-- Link to home with site name -->
+      <a href="/{{ config.extra.homepage | d(nav.homepage.url, true) }}"
+         title="{{ config.site_name | e }}"
+         class="md-header__button md-logo"
+         aria-label="{{ config.site_name }}"
+         data-md-component="logo">
+        {{ config.site_name }}
+      </a>
+      <!-- Render item list -->
+      <ul class="md-nav__list">
+        {% for nav_item in nav %}
+          {% set path = "__nav_" ~ loop.index %}
+          {% set level = 1 %}
+          {% include "partials/nav-item.html" %}
+        {% endfor %}
+      </ul>
+      <!-- Button to open search modal -->
+      {% if "material/search" in config.plugins %}
+        <label class="md-header__button md-icon" for="__search">{% include ".icons/material/magnify.svg" %}</label>
+        <!-- Search interface -->
+        {% include "partials/search.html" %}
+      {% endif %}
+      <!-- Repository information -->
+      {% if config.repo_url %}
+        <div class="md-nav__source">{% include "partials/source.html" %}</div>
+      {% endif %}
+    </nav>
+  </header>
+{% endblock header %}
+<!------------------------ Site nav -->
+{% block site_nav %}
+{% endblock site_nav %}
+<!------------------------ Content -->
+<!-- Page content -->
+{% block container %}
+  <div class="md-content" data-md-component="content">
+    <!-- Hero -->
+    {% if page.meta and page.meta.image %}
+      <img class="page-hero"
+           width="100%"
+           height="auto"
+           src="{{ page.meta.image }}"
+           alt="{{ page.meta.imagealt }}"/>
+    {% endif %}
+    <article class="md-content__inner md-typeset">
+      {% block content %}
+        {% include "partials/content.html" %}
+      {% endblock content %}
+    </article>
+  </div>
+{% endblock container %}
+<!------------------------ Content -->
+{% block footer %}
+  <footer class="md-footer">
+    <!-- Link to previous and/or next page removed -->
+    <!-- Further information -->
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        {% include "partials/copyright.html" %}
+        <!-- Social links -->
+        {% if config.extra.social %}
+          {% include "partials/social.html" %}
+        {% endif %}
+        <!-- Custom -->
+      </div>
+    </div>
+  </footer>
+{% endblock footer %}

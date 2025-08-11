@@ -1,0 +1,31 @@
+{
+  "name": "klaudiarafal",
+  "version": "1.0.0",
+  "repository": "https://github.com/rafalschmidt97/kr.git",
+  "author": "Rafal Schmidt <rafalschmidt97@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write 'src/**/*.md' --prose-wrap always",
+    "lint": "markdownlint --fix --ignore node_modules --fix 'src/**/*.md'",
+    "start": "mkdocs serve",
+    "prepare": "husky install && pip3 install -r requirements.txt",
+    "env": "uv venv -p 3.11 .venv && source .venv/bin/activate",
+    "prepare-uv": "uv pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "markdownlint": "^0.27.0",
+    "markdownlint-cli": "^0.33.0",
+    "prettier": "^2.8.3"
+  },
+  "lint-staged": {
+    "**/*.{md}": [
+      "yarn format",
+      "yarn lint"
+    ]
+  }
+}
