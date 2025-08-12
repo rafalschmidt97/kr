@@ -158,6 +158,12 @@ html {
     margin-top: 1.5em !important;
     background-color: transparent;
     color: var(--md-primary-fg-color);
+
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 1;
+    margin-left: -100px;
 }
 
 @media screen and (min-width: 60em) {
@@ -177,6 +183,7 @@ html {
 @media screen and (min-width: 60em) {
     .md-footer-meta__inner.md-grid {
         padding: 0.5rem 1rem;
+        margin-left: -120px;
     }
 }
 
@@ -185,7 +192,8 @@ html {
 }
 
 .md-copyright, .md-copyright__highlight {
-    color: var(--md-primary-fg-color);
+    /* color: var(--md-primary-fg-color); */
+    color: white;
 }
 
 .md-footer-meta.md-typeset a {

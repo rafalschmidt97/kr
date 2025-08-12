@@ -1,9 +1,42 @@
 {% extends "main.html" %}
+<!-- Hide header for landing page -->
+{% block header %}
+{% endblock header %}
 <!-- Override container (with content) to reduce padding -->
 {% block container %}
-  <div class="md-content homepage" data-md-component="content">
-    <article class="md-content__inner md-typeset">
-      {{ page.content }}
-    </article>
+  <div class="md-content homepage landing-page" data-md-component="content">
+    <!-- Background slideshow -->
+    <div class="background-slideshow">
+      <div class="slide active" style="background-image: url('../static/landing/IMG_5204.jpg')"></div>
+      <div class="slide" style="background-image: url('../static/landing/IMG_5101.jpg')"></div>
+      <div class="slide" style="background-image: url('../static/landing/IMG_5096.jpg')"></div>
+      <div class="slide" style="background-image: url('../static/landing/IMG_5084.jpg')"></div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="landing-content">
+      <div class="couple-names">
+        <h1>Klaudia <span class="ampersand">&</span> Rafał</h1>
+      </div>
+      
+      <div class="welcome-message">
+        {{ page.content }}
+      </div>
+    </div>
+    
+    <!-- JavaScript for slideshow -->
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.slide');
+      
+      function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }
+      
+      // Change slide every 5 seconds
+      setInterval(nextSlide, 5000);
+    </script>
   </div>
 {% endblock container %}
