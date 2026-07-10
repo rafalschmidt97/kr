@@ -13,19 +13,26 @@ Nasze wesele odbędzie się <a style="text-decoration: underline" href="/static/
 function updateCountdown() {
     const targetDate = new Date('2027-07-10T00:00:00');
     const now = new Date();
-    
+    now.setHours(0, 0, 0, 0);
+
     if (now >= targetDate) {
         document.getElementById('countdown').textContent = 'dzisiaj';
         return;
     }
-    
-    const diffTime = targetDate - now;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    const years = Math.floor(diffDays / 365);
-    const remainingDays = diffDays % 365;
-    const months = Math.floor(remainingDays / 30);
-    const days = remainingDays % 30;
+
+    let years = targetDate.getFullYear() - now.getFullYear();
+    let months = targetDate.getMonth() - now.getMonth();
+    let days = targetDate.getDate() - now.getDate();
+
+    if (days < 0) {
+        months--;
+        days += new Date(targetDate.getFullYear(), targetDate.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
     
     const parts = [];
     
