@@ -1,0 +1,90 @@
+---
+// Optional, consent-gated Google Analytics.
+// Enabled only when PUBLIC_GA_ID is set. With no ID, nothing renders
+// (no analytics script, no analytics consent banner).
+const gaId = import.meta.env.PUBLIC_GA_ID;
+---
+
+{
+  gaId && (
+    <div
+      id="cookie-consent"
+      class="consent"
+      role="dialog"
+      aria-live="polite"
+      aria-label="Zgoda na pliki cookie"
+      data-ga-id={gaId}
+      hidden
+    >
+      <p class="consent__text">
+        Ta strona używa plików cookie od zewnętrznych dostawców w celu analizy
+        ruchu.
+      </p>
+      <div class="consent__actions">
+        <button
+          type="button"
+          id="consent-accept"
+          class="consent__btn consent__btn--accept"
+        >
+          Zaakceptuj
+        </button>
+        <button
+          type="button"
+          id="consent-reject"
+          class="consent__btn consent__btn--reject"
+        >
+          Odrzuć
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  import { initConsentAnalytics } from "../scripts/consent";
+
+  const banner = document.getElementById("cookie-consent");
+  const gaId = banner?.dataset.gaId;
+  if (gaId) initConsentAnalytics(gaId);
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 1000;
+    max-width: 22rem;
+    background: #fff;
+    color: #000;
+    padding: 1rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .consent[hidden] {
+    display: none;
+  }
+  .consent__text {
+    margin: 0 0 0.75rem;
+  }
+  .consent__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .consent__btn {
+    flex: 1;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  .consent__btn--accept {
+    background: #000;
+    color: #fff;
+  }
+  .consent__btn--reject {
+    background: #e8e8e8;
+    color: #636363;
+  }
+</style>

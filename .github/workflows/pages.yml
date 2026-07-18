@@ -1,18 +1,13 @@
-# Sample workflow for building and deploying a MkDocs site to GitHub Pages
 name: Deploy
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [main]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Allow this job to clone the repo and create a page deployment
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -25,31 +20,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Build site
-        # Outputs to the './_site' directory
-        run: mkdocs build --config-file ./mkdocs.yml --site-dir ./_site
-      # - run: mkdocs gh-deploy --force
-      - name: Install reprec
-        run: pip install reprec
-      - name: Run custom replacement script
-        run: ./scripts/replace-relative-paths-build.sh
-      - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
-        uses: actions/upload-pages-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build Astro site
+        uses: withastro/action@v6
+
   deploy:
     needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

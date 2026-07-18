@@ -1,0 +1,57 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+context: |
+  Project: Wedding website for Klaudia & Rafał, live at https://klaudiarafal.pl
+  Wedding: 10 July 2027, Villa Presto (Poland). Content is in Polish. Single language (no i18n).
+
+  Current state (being replaced):
+    - Built on MkDocs + mkdocs-material (a docs generator repurposed as a website).
+    - Single page (src/index.md) with an inline-JS countdown and a fullscreen 4-photo
+      background slideshow (5s rotation, dark overlay). Custom Material theme overrides.
+    - Deployed to GitHub Pages via GitHub Actions; a fragile `reprec` shell script
+      rewrites relative asset paths to absolute https://klaudiarafal.pl/... URLs.
+    - Leftover blog cruft from a forked personal-blog theme (it/programowanie keywords, tagi.md).
+
+  Target stack (the rebuild):
+    - Astro (static output, zero JS by default). Countdown stays as a tiny script island.
+      Ports the existing landing (couple names + slideshow + countdown) as step one.
+    - Hosting: GitHub Pages, keep custom domain klaudiarafal.pl (HTTPS enforced).
+      Astro's native GitHub Pages deploy replaces the MkDocs + reprec path-rewrite hack.
+    - Analytics: Google Analytics (G-YM5ZY68GZJ) + a cookie-consent banner (currently GlowCookies).
+    - Photos after the event: hosted on Google Photos (link-out), NOT self-hosted.
+      So no heavy on-site image gallery is needed.
+    - Goal: a nice-looking site with tasteful CSS animations/interactions.
+
+  Guest operations live OUTSIDE the website (do not build into the site):
+    - RSVP and guest communication happen over WhatsApp, one-to-one, not via web forms
+      or Google Forms.
+    - Guest list + phone numbers maintained in a Google Spreadsheet.
+    - Timed messaging (e.g. ~3 days before, day before, event day) is sent from Rafal's
+      machine via an OpenCode agent driving agent-browser (Chromium) against WhatsApp Web.
+    - No application server, database, or serverless functions. The website is purely static.
+
+  Tooling/conventions:
+    - Conventional commits (commitlint), Husky pre-commit + lint-staged, Prettier.
+    - Package manager: npm (switched from yarn during the Astro rebuild). Node available.
+
+  Roadmap / follow-ups:
+    - AFTER the Astro migration (rebuild-astro-port-landing) is deployed, ASK Rafal for
+      the page/content requirements (which sections the wedding site should have: e.g.
+      details, schedule, travel, accommodation, info, our story, FAQ) BEFORE building
+      further pages. Do not assume the section list.
+    - Guest-messaging automation (WhatsApp Web via agent-browser + Google Spreadsheet of
+      phone numbers, timed reminders ~3 days before / day before / event day) will be its
+      own separate OpenSpec change later. It is NOT part of the website.
+
+# Per-artifact rules (optional)
+rules:
+  proposal:
+    - Keep the website purely static; never propose a server, database, or serverless backend.
+    - Keep guest communication (RSVP, reminders) out of the website; it is handled externally
+      via Google Spreadsheet + WhatsApp automation.
+    - Always preserve the countdown behavior.
+  tasks:
+    - Break tasks into small, independently verifiable steps.
+    - Include a step to verify the GitHub Pages deploy and custom domain still work.

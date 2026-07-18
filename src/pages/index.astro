@@ -1,0 +1,220 @@
+---
+import Base from "../layouts/Base.astro";
+
+const slides = [
+  "/static/landing/IMG_5204.jpg",
+  "/static/landing/IMG_5101.jpg",
+  "/static/landing/IMG_5096.jpg",
+  "/static/landing/IMG_5084.jpg",
+];
+
+const mapsUrl =
+  "https://www.google.com/maps/place/VILLA+PRESTO/@50.2632984,22.2542607,12z/data=!4m6!3m5!1s0x473cc3d80a529c1f:0xf21d277bb18884e0!8m2!3d50.2633275!4d22.336661!16s%2Fg%2F11jx5q2vrt";
+---
+
+<Base>
+  <main class="landing">
+    <div class="slideshow" aria-hidden="true">
+      {
+        slides.map((src, i) => (
+          <div
+            class:list={["slide", { active: i === 0 }]}
+            style={`background-image: url('${src}')`}
+          />
+        ))
+      }
+    </div>
+
+    <div class="content">
+      <h1 class="names">Klaudia <span class="ampersand">&amp;</span> Rafał</h1>
+
+      <p class="intro">
+        Nasze wesele odbędzie się{" "}
+        <a class="link" href="/static/wedding.ics" download>10 lipca 2027</a>{
+          " "
+        }
+        (<span id="countdown">…</span>) w{" "}
+        <a class="link" href={mapsUrl} target="_blank" rel="noopener noreferrer"
+          >Villa Presto</a
+        >. Wkrótce pojawią się tutaj szczegółowe informacje dotyczące dojazdu,
+        planu dnia oraz innych atrakcji.
+      </p>
+    </div>
+  </main>
+</Base>
+
+<script>
+  // --- Background slideshow (5s auto-advance) ---
+  const slides = Array.from(document.querySelectorAll<HTMLElement>(".slide"));
+  if (slides.length > 1) {
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 5000);
+  }
+
+  // --- Countdown to the wedding date (calendar-based, Polish pluralization) ---
+  function updateCountdown() {
+    const el = document.getElementById("countdown");
+    if (!el) return;
+
+    const targetDate = new Date("2027-07-10T00:00:00");
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (now >= targetDate) {
+      el.textContent = "dzisiaj";
+      return;
+    }
+
+    let years = targetDate.getFullYear() - now.getFullYear();
+    let months = targetDate.getMonth() - now.getMonth();
+    let days = targetDate.getDate() - now.getDate();
+
+    if (days < 0) {
+      months--;
+      days += new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        0,
+      ).getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    const parts: string[] = [];
+
+    if (years > 0) {
+      if (years === 1) parts.push(`${years} rok`);
+      else if (years >= 2 && years <= 4) parts.push(`${years} lata`);
+      else parts.push(`${years} lat`);
+    }
+
+    if (months > 0) {
+      if (months === 1) parts.push(`${months} miesiąc`);
+      else if (months >= 2 && months <= 4) parts.push(`${months} miesiące`);
+      else parts.push(`${months} miesięcy`);
+    }
+
+    if (days > 0) {
+      if (days === 1) parts.push(`${days} dzień`);
+      else parts.push(`${days} dni`);
+    }
+
+    let result: string;
+    if (parts.length === 0) result = "mniej niż dzień";
+    else if (parts.length === 1) result = parts[0];
+    else if (parts.length === 2) result = `${parts[0]} i ${parts[1]}`;
+    else result = `${parts[0]}, ${parts[1]} i ${parts[2]}`;
+
+    el.textContent = `za ${result}`;
+  }
+
+  updateCountdown();
+</script>
+
+<style>
+  .landing {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .slideshow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .slide.active {
+    opacity: 1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+  }
+
+  .names {
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+
+  .ampersand {
+    font-style: italic;
+    font-weight: 400;
+    margin: 0 20px;
+    font-size: 0.8em;
+  }
+
+  .intro {
+    max-width: 600px;
+    margin-top: 40px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #fff;
+  }
+
+  .link {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 768px) {
+    .names {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+    }
+    .ampersand {
+      margin: 0 10px;
+    }
+    .intro {
+      font-size: 1rem;
+      max-width: 90%;
+      margin-top: 30px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .names {
+      font-size: 2rem;
+    }
+    .intro {
+      font-size: 0.9rem;
+    }
+  }
+</style>

@@ -1,31 +1,32 @@
 {
   "name": "klaudiarafal",
   "version": "1.0.0",
+  "type": "module",
   "repository": "https://github.com/rafalschmidt97/kr.git",
   "author": "Rafal Schmidt <rafalschmidt97@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "format": "prettier --write 'src/**/*.md' --prose-wrap always",
-    "lint": "markdownlint --fix --ignore node_modules --fix 'src/**/*.md'",
-    "start": "mkdocs serve",
-    "prepare": "husky install && pip3 install -r requirements.txt",
-    "env": "uv venv -p 3.11 .venv && source .venv/bin/activate",
-    "prepare-uv": "uv pip install -r requirements.txt"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write 'src/**/*.{astro,css,js,ts,md}'",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.1.0",
-    "markdownlint": "^0.27.0",
-    "markdownlint-cli": "^0.33.0",
-    "prettier": "^2.8.3"
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "astro": "^7.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1"
   },
   "lint-staged": {
-    "**/*.{md}": [
-      "yarn format",
-      "yarn lint"
+    "**/*.{astro,css,js,ts,md}": [
+      "prettier --write"
     ]
   }
 }
