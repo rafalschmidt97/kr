@@ -1,8 +1,19 @@
 ---
 import { groups } from "../data/groups";
+
+interface Props {
+  // "dark" reads well on the hero image; "light" matches white interior pages.
+  variant?: "dark" | "light";
+}
+const { variant = "dark" } = Astro.props;
 ---
 
-<nav id="preview-panel" class="preview-nav" aria-label="Developer Mode" hidden>
+<nav
+  id="preview-panel"
+  class:list={["preview-nav", `preview-nav--${variant}`]}
+  aria-label="Developer Mode"
+  hidden
+>
   {groups.map((g) => <a href={`/${g.slug}`}>{g.label}</a>)}
   <button
     type="button"
@@ -19,56 +30,89 @@ import { groups } from "../data/groups";
 
 <style>
   .preview-nav {
+    position: relative;
     display: flex;
     gap: 1.25rem;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
     white-space: nowrap;
-    max-width: calc(100% - 2rem);
+    width: max-content;
+    max-width: 90vw;
     margin: 0.75rem auto 0;
-    padding: 0.7rem 1.5rem;
+    padding: 0.7rem 2.25rem 0.7rem 1.5rem;
     font-size: 0.8rem;
     border-radius: 999px;
-    background: rgba(24, 24, 27, 0.45);
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
   .preview-nav[hidden] {
     display: none;
   }
-  .preview-nav a {
+
+  /* Dark variant — for the hero image background. */
+  .preview-nav--dark {
+    background: rgba(24, 24, 27, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  .preview-nav--dark a {
     color: #fff;
-    text-decoration: none;
     opacity: 0.9;
+  }
+  .preview-nav--dark .preview-nav__close {
+    color: #fff;
+  }
+
+  /* Light variant — matches the interior nav pill on white pages. */
+  .preview-nav--light {
+    background: rgba(24, 24, 27, 0.045);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+  .preview-nav--light a {
+    color: inherit;
+    opacity: 0.75;
+  }
+  .preview-nav--light .preview-nav__close {
+    color: inherit;
+  }
+
+  .preview-nav a {
+    text-decoration: none;
   }
   .preview-nav a:hover {
     opacity: 1;
     text-decoration: underline;
   }
+  /* Close sits centered on the right edge, out of the wrapping flow, so it
+     never drops onto its own line when the labels wrap. */
   .preview-nav__close {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
     background: none;
     border: none;
-    color: #fff;
     opacity: 0.6;
     font-size: 1.1rem;
     line-height: 1;
     cursor: pointer;
-    padding: 0 0 0 0.25rem;
+    padding: 0.25rem;
   }
   .preview-nav__close:hover {
     opacity: 1;
   }
 
-  /* On narrow screens the group labels can't fit on one line — let them wrap. */
+  /* On narrow screens the group labels can't fit on one line — let them wrap.
+     The close button stays absolutely positioned; reserve space on the right
+     so wrapped labels don't slide under it. */
   @media screen and (max-width: 768px) {
     .preview-nav {
       flex-wrap: wrap;
       white-space: normal;
       gap: 0.5rem 0.9rem;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 2rem 0.6rem 1rem;
       font-size: 0.72rem;
       max-width: calc(100% - 1.5rem);
     }
