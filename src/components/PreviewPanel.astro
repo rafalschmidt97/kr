@@ -2,18 +2,15 @@
 import { groups } from "../data/groups";
 ---
 
-<aside id="preview-panel" class="glass-panel preview" hidden>
-  <p class="preview__title">Podgląd (tylko dla nas)</p>
-  <ul class="preview__list">
-    {
-      groups.map((g) => (
-        <li>
-          <a href={`/${g.slug}`}>{g.label}</a>
-        </li>
-      ))
-    }
-  </ul>
-</aside>
+<nav id="preview-panel" class="preview-nav" aria-label="Developer Mode" hidden>
+  {groups.map((g) => <a href={`/${g.slug}`}>{g.label}</a>)}
+  <button
+    type="button"
+    id="preview-close"
+    class="preview-nav__close"
+    aria-label="Wyłącz podgląd">×</button
+  >
+</nav>
 
 <script>
   import { initPreview } from "../scripts/preview";
@@ -21,35 +18,59 @@ import { groups } from "../data/groups";
 </script>
 
 <style>
-  .preview {
-    left: 4.5rem;
-    bottom: 4.5rem;
-    max-width: 16rem;
+  .preview-nav {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    max-width: calc(100% - 2rem);
+    margin: 0.75rem auto 0;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.8rem;
+    border-radius: 999px;
+    background: rgba(24, 24, 27, 0.45);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
-  @media screen and (max-width: 768px) {
-    .preview {
-      left: 1rem;
-      bottom: 1rem;
-    }
+  .preview-nav[hidden] {
+    display: none;
   }
-  .preview__title {
-    margin: 0 0 0.5rem;
-    font-weight: 600;
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.7rem;
-  }
-  .preview__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .preview__list li {
-    padding: 0.2rem 0;
-  }
-  .preview__list a {
+  .preview-nav a {
     color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    opacity: 0.9;
+  }
+  .preview-nav a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  .preview-nav__close {
+    background: none;
+    border: none;
+    color: #fff;
+    opacity: 0.6;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0 0 0.25rem;
+  }
+  .preview-nav__close:hover {
+    opacity: 1;
+  }
+
+  /* On narrow screens the group labels can't fit on one line — let them wrap. */
+  @media screen and (max-width: 768px) {
+    .preview-nav {
+      flex-wrap: wrap;
+      white-space: normal;
+      gap: 0.5rem 0.9rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.72rem;
+      max-width: calc(100% - 1.5rem);
+    }
   }
 </style>
