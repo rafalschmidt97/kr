@@ -2,11 +2,22 @@
 // Preview control: a "⋯ more" button that only appears when preview mode is on
 // (?preview=1). It reveals links to the hidden guest-group and schedule pages,
 // plus a switch to turn preview off. Rendered inline inside the nav pill.
+// variant tunes the "⋯" colour: "dark" = white (over the hero image),
+// "light" = grey (on the white interior pill).
 import { groups } from "../data/groups";
 import { schedules } from "../data/schedules";
+
+interface Props {
+  variant?: "dark" | "light";
+}
+const { variant = "dark" } = Astro.props;
 ---
 
-<div id="preview-more" class="preview-more" hidden>
+<div
+  id="preview-more"
+  class:list={["preview-more", `preview-more--${variant}`]}
+  hidden
+>
   <button
     type="button"
     id="preview-more-btn"
@@ -48,17 +59,26 @@ import { schedules } from "../data/schedules";
   .preview-more__btn {
     background: none;
     border: none;
-    color: inherit;
-    opacity: 0.75;
     font-size: 1.15rem;
     line-height: 1;
     letter-spacing: 0.04em;
     cursor: pointer;
     padding: 0 0.15rem;
   }
-  .preview-more__btn:hover,
-  .preview-more__btn[aria-expanded="true"] {
-    opacity: 1;
+  /* Concrete colours (not opacity) so the dots match the nav links exactly. */
+  .preview-more--dark .preview-more__btn {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .preview-more--dark .preview-more__btn:hover,
+  .preview-more--dark .preview-more__btn[aria-expanded="true"] {
+    color: #fff;
+  }
+  .preview-more--light .preview-more__btn {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .preview-more--light .preview-more__btn:hover,
+  .preview-more--light .preview-more__btn[aria-expanded="true"] {
+    color: rgba(0, 0, 0, 0.9);
   }
 
   /* Self-contained dark glass dropdown — readable over both hero and white. */
