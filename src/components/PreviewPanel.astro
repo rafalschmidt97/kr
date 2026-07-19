@@ -104,9 +104,9 @@ const { variant = "dark" } = Astro.props;
     opacity: 1;
   }
 
-  /* On narrow screens the group labels can't fit on one line — let them wrap.
-     The close button stays absolutely positioned; reserve space on the right
-     so wrapped labels don't slide under it. */
+  /* On narrow screens shrink type/padding. Labels now fit on one line, so the
+     pill still sizes to its content; wrapping stays as a safety net (with the
+     close button absolutely positioned) if a longer group is ever added. */
   @media screen and (max-width: 768px) {
     .preview-nav {
       flex-wrap: wrap;
@@ -114,7 +114,6 @@ const { variant = "dark" } = Astro.props;
       gap: 0.5rem 0.9rem;
       padding: 0.6rem 2rem 0.6rem 1rem;
       font-size: 0.72rem;
-      max-width: calc(100% - 1.5rem);
     }
   }
 </style>
