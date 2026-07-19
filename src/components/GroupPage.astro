@@ -33,7 +33,12 @@ const { group } = Astro.props;
               group.hotel.name
             )}
           </p>
-          <p>{group.hotel.stay}</p>
+          <p>
+            {group.hotel.tentative && (
+              <span class="tag-tbd">do potwierdzenia</span>
+            )}
+            {group.hotel.stay}
+          </p>
           {group.hotel.mapsUrl && (
             <p>
               <a
@@ -56,7 +61,10 @@ const { group } = Astro.props;
           {group.bus.map((b) => (
             <div class="group__bus">
               <h3>{b.label}</h3>
-              <p>{b.detail}</p>
+              <p>
+                {b.tentative && <span class="tag-tbd">do potwierdzenia</span>}
+                {b.detail}
+              </p>
             </div>
           ))}
         </section>
@@ -117,5 +125,21 @@ const { group } = Astro.props;
   }
   .back {
     margin-top: 2rem;
+  }
+
+  /* "do potwierdzenia" badge — matches the schedule pages' TBD tag. */
+  .tag-tbd {
+    display: inline-block;
+    margin-right: 0.4rem;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 999px;
+    color: #8a6d1a;
+    background: rgba(214, 176, 74, 0.16);
+    border: 1px solid rgba(214, 176, 74, 0.35);
+    vertical-align: middle;
   }
 </style>

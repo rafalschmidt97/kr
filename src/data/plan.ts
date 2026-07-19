@@ -6,6 +6,7 @@ export interface PlanItem {
   mapsUrl?: string;
   note?: string;
   muted?: boolean; // logistyka / moment przejściowy (nie "atrakcja") — lżejszy styl
+  tentative?: boolean; // pokazuje plakietkę "do potwierdzenia"
 }
 
 const CHURCH_MAPS = "https://maps.app.goo.gl/xSRxUGSP9a2NeuxR8";
@@ -30,6 +31,7 @@ export const plan: PlanItem[] = [
     time: "15:00",
     title: "Autokar spod kościoła do Villa Presto",
     muted: true,
+    tentative: true,
   },
   {
     time: "15:30",
@@ -55,5 +57,6 @@ export const plan: PlanItem[] = [
     time: "03:00",
     title: "Autokar powrotny z Villa Presto",
     muted: true,
+    tentative: true,
   },
 ];

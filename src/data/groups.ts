@@ -1,5 +1,3 @@
-import { TBD } from "./site";
-
 export interface GuestGroup {
   slug: string; // route slug, no leading slash
   label: string; // shown in the preview panel
@@ -11,10 +9,12 @@ export interface GuestGroup {
     url?: string;
     mapsUrl?: string;
     stay: string; // nights + breakfast info (or venue description)
+    tentative?: boolean; // shows a "do potwierdzenia" badge
   };
   bus?: {
     label: string;
     detail: string;
+    tentative?: boolean; // shows a "do potwierdzenia" badge
   }[];
   extra?: string;
 }
@@ -63,7 +63,8 @@ export const groups: GuestGroup[] = [
       name: "Villa Presto / Karczma Villa Presto",
       mapsUrl:
         "https://www.google.com/maps/place/VILLA+PRESTO/@50.2632984,22.2542607,12z/data=!4m6!3m5!1s0x473cc3d80a529c1f:0xf21d277bb18884e0!8m2!3d50.2633275!4d22.336661!16s%2Fg%2F11jx5q2vrt",
-      stay: `Nocleg z soboty na niedzielę. Nocleg jest po naszej stronie. W niedzielę czeka na Was śniadanie (najpewniej w Karczmie) — dokładną godzinę podamy wkrótce (${TBD}).`,
+      stay: "Nocleg z soboty na niedzielę. Nocleg jest po naszej stronie. W niedzielę czeka na Was śniadanie (najpewniej w Karczmie) — dokładną godzinę podamy wkrótce.",
+      tentative: true,
     },
     bus: [
       {
@@ -96,11 +97,15 @@ export const groups: GuestGroup[] = [
     bus: [
       {
         label: "Dojazd",
-        detail: `Podstawimy autokar: z Rzeszowa podjeżdża około 13:30 i rusza o 14:00, po drodze zabiera Gości z Grodziska i okolic — na miejscu jesteśmy około 15:30. Dokładna trasa i szczegóły (${TBD}).`,
+        detail:
+          "Podstawimy autokar: z Rzeszowa podjeżdża około 13:30 i rusza o 14:00, po drodze zabiera Gości z Grodziska i okolic — na miejscu jesteśmy około 15:30.",
+        tentative: true,
       },
       {
         label: "Powrót",
-        detail: `Powrót do Rzeszowa planujemy na 22:00. Po Grodzisku i okolicy kursy będą częstsze. Szczegóły dopinamy (${TBD}).`,
+        detail:
+          "Powrót do Rzeszowa planujemy na 22:00. Po Grodzisku i okolicy kursy będą częstsze.",
+        tentative: true,
       },
     ],
     extra:

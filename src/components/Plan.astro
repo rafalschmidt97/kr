@@ -10,7 +10,12 @@ import { plan } from "../data/plan";
         <li class:list={["plan__item", { "plan__item--muted": item.muted }]}>
           <span class="plan__time">{item.time}</span>
           <div class="plan__body">
-            <h3 class="plan__title">{item.title}</h3>
+            <h3 class="plan__title">
+              {item.title}
+              {item.tentative && (
+                <span class="plan__tbd">do potwierdzenia</span>
+              )}
+            </h3>
             {item.place && (
               <p class="plan__place">
                 {item.mapsUrl ? (
@@ -77,5 +82,19 @@ import { plan } from "../data/plan";
     font-weight: 400;
     color: rgba(0, 0, 0, 0.5);
     font-size: 0.95rem;
+  }
+  .plan__tbd {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 999px;
+    color: #8a6d1a;
+    background: rgba(214, 176, 74, 0.16);
+    border: 1px solid rgba(214, 176, 74, 0.35);
+    vertical-align: middle;
   }
 </style>
