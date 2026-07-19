@@ -1,27 +1,35 @@
 ---
+// Preview control: a "⋯ more" button that only appears when preview mode is on
+// (?preview=1). It reveals links to the hidden guest-group and schedule pages,
+// plus a switch to turn preview off. Rendered inline inside the nav pill.
 import { groups } from "../data/groups";
-
-interface Props {
-  // "dark" reads well on the hero image; "light" matches white interior pages.
-  variant?: "dark" | "light";
-}
-const { variant = "dark" } = Astro.props;
+import { schedules } from "../data/schedules";
 ---
 
-<nav
-  id="preview-panel"
-  class:list={["preview-nav", `preview-nav--${variant}`]}
-  aria-label="Developer Mode"
-  hidden
->
-  {groups.map((g) => <a href={`/${g.slug}`}>{g.label}</a>)}
+<div id="preview-more" class="preview-more" hidden>
   <button
     type="button"
-    id="preview-close"
-    class="preview-nav__close"
-    aria-label="Wyłącz podgląd">×</button
+    id="preview-more-btn"
+    class="preview-more__btn"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="preview-more-menu"
+    aria-label="Więcej — podgląd ukrytych stron">⋯</button
   >
-</nav>
+  <div id="preview-more-menu" class="preview-more__menu" hidden>
+    <p class="preview-more__label">Goście</p>
+    {groups.map((g) => <a href={`/${g.slug}`}>{g.label}</a>)}
+    <p class="preview-more__label">Harmonogramy</p>
+    {
+      schedules.map((s) => (
+        <a href={`/${s.slug}`}>{s.previewLabel ?? s.label}</a>
+      ))
+    }
+    <button type="button" id="preview-off" class="preview-more__off">
+      Wyłącz podgląd
+    </button>
+  </div>
+</div>
 
 <script>
   import { initPreview } from "../scripts/preview";
@@ -29,91 +37,87 @@ const { variant = "dark" } = Astro.props;
 </script>
 
 <style>
-  .preview-nav {
+  .preview-more {
     position: relative;
-    display: flex;
-    gap: 1.25rem;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    width: max-content;
-    max-width: 90vw;
-    margin: 0.75rem auto 0;
-    padding: 0.7rem 2.25rem 0.7rem 1.5rem;
-    font-size: 0.8rem;
-    border-radius: 999px;
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
   }
-  .preview-nav[hidden] {
+  .preview-more[hidden] {
     display: none;
   }
-
-  /* Dark variant — for the hero image background. */
-  .preview-nav--dark {
-    background: rgba(24, 24, 27, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  .preview-more__btn {
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.9;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    padding: 0 0.15rem;
   }
-  .preview-nav--dark a {
+  .preview-more__btn:hover,
+  .preview-more__btn[aria-expanded="true"] {
+    opacity: 1;
+  }
+
+  /* Self-contained dark glass dropdown — readable over both hero and white. */
+  .preview-more__menu {
+    position: absolute;
+    top: calc(100% + 0.85rem);
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: max-content;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    text-align: left;
+    white-space: nowrap;
+    background: rgba(24, 24, 27, 0.92);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+  }
+  .preview-more__menu[hidden] {
+    display: none;
+  }
+  .preview-more__label {
+    margin: 0.15rem 0 0;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+  }
+  .preview-more__label:first-child {
+    margin-top: 0;
+  }
+  .preview-more__menu a {
     color: #fff;
     opacity: 0.9;
-  }
-  .preview-nav--dark .preview-nav__close {
-    color: #fff;
-  }
-
-  /* Light variant — matches the interior nav pill on white pages. */
-  .preview-nav--light {
-    background: rgba(24, 24, 27, 0.045);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-  }
-  .preview-nav--light a {
-    color: inherit;
-    opacity: 0.75;
-  }
-  .preview-nav--light .preview-nav__close {
-    color: inherit;
-  }
-
-  .preview-nav a {
+    font-size: 0.85rem;
     text-decoration: none;
   }
-  .preview-nav a:hover {
+  .preview-more__menu a:hover {
     opacity: 1;
     text-decoration: underline;
   }
-  /* Close sits centered on the right edge, out of the wrapping flow, so it
-     never drops onto its own line when the labels wrap. */
-  .preview-nav__close {
-    position: absolute;
-    top: 50%;
-    right: 0.75rem;
-    transform: translateY(-50%);
-    background: none;
+  .preview-more__off {
+    margin-top: 0.35rem;
+    padding-top: 0.6rem;
     border: none;
-    opacity: 0.6;
-    font-size: 1.1rem;
-    line-height: 1;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    background: none;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+    text-align: left;
     cursor: pointer;
-    padding: 0.25rem;
   }
-  .preview-nav__close:hover {
-    opacity: 1;
-  }
-
-  /* On narrow screens shrink type/padding. Labels now fit on one line, so the
-     pill still sizes to its content; wrapping stays as a safety net (with the
-     close button absolutely positioned) if a longer group is ever added. */
-  @media screen and (max-width: 768px) {
-    .preview-nav {
-      flex-wrap: wrap;
-      white-space: normal;
-      gap: 0.5rem 0.9rem;
-      padding: 0.6rem 2rem 0.6rem 1rem;
-      font-size: 0.6rem;
-    }
+  .preview-more__off:hover {
+    color: #fff;
   }
 </style>

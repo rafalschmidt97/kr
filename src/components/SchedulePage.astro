@@ -1,0 +1,163 @@
+---
+import Base from "../layouts/Base.astro";
+import SiteNav from "./SiteNav.astro";
+import { rsvp } from "../data/site";
+import type { Schedule } from "../data/schedules";
+
+interface Props {
+  schedule: Schedule;
+}
+const { schedule } = Astro.props;
+---
+
+<Base title={`${schedule.title} | Klaudia & Rafał`} noindex={true}>
+  <main class="schedule">
+    <SiteNav />
+    <h1>{schedule.title}</h1>
+
+    {
+      schedule.draft && (
+        <p class="schedule__draft">
+          Wersja robocza — godziny i szczegóły jeszcze się zmienią.
+        </p>
+      )
+    }
+
+    <p class="schedule__intro">{schedule.intro}</p>
+
+    <ol class="schedule__list">
+      {
+        schedule.items.map((item) => (
+          <li
+            class:list={[
+              "schedule__item",
+              { "schedule__item--muted": item.muted },
+            ]}
+          >
+            <span class="schedule__time">{item.time}</span>
+            <div class="schedule__body">
+              <h3 class="schedule__item-title">{item.title}</h3>
+              {item.who && <p class="schedule__who">{item.who}</p>}
+              {item.place && <p class="schedule__place">{item.place}</p>}
+              {item.note && <p class="schedule__note">{item.note}</p>}
+              {item.todo && (
+                <p class="schedule__todo">
+                  <span class="schedule__todo-tag">Do ustalenia</span>
+                  {item.todo}
+                </p>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="schedule__rsvp">{rsvp.note}</p>
+    <p class="back"><a href="/">← Strona główna</a></p>
+  </main>
+</Base>
+
+<style>
+  .schedule {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3.5rem 1.25rem;
+  }
+  .schedule h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0 0 1rem;
+  }
+  .schedule__draft {
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 999px;
+    color: rgba(0, 0, 0, 0.7);
+    background: rgba(24, 24, 27, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .schedule__intro {
+    font-size: 1.05rem;
+    color: rgba(0, 0, 0, 0.75);
+    margin: 0 0 2rem;
+  }
+  .schedule__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .schedule__item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .schedule__item:last-child {
+    border-bottom: none;
+  }
+  .schedule__time {
+    flex: 0 0 6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .schedule__item-title {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .schedule__who {
+    margin: 0.15rem 0;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .schedule__place {
+    margin: 0.15rem 0;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  .schedule__note {
+    margin: 0.35rem 0 0;
+    font-size: 0.95rem;
+  }
+  .schedule__todo {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .schedule__todo-tag {
+    display: inline-block;
+    margin-right: 0.4rem;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 999px;
+    color: #8a6d1a;
+    background: rgba(214, 176, 74, 0.16);
+    border: 1px solid rgba(214, 176, 74, 0.35);
+  }
+  .schedule__item--muted .schedule__time,
+  .schedule__item--muted .schedule__item-title {
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.95rem;
+  }
+  .schedule__rsvp {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .back {
+    margin-top: 2rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .schedule__time {
+      flex-basis: 5rem;
+    }
+  }
+</style>
