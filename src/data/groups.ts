@@ -63,7 +63,7 @@ export const groups: GuestGroup[] = [
       name: "Villa Presto / Karczma Villa Presto",
       mapsUrl:
         "https://www.google.com/maps/place/VILLA+PRESTO/@50.2632984,22.2542607,12z/data=!4m6!3m5!1s0x473cc3d80a529c1f:0xf21d277bb18884e0!8m2!3d50.2633275!4d22.336661!16s%2Fg%2F11jx5q2vrt",
-      stay: "Nocleg z soboty na niedzielę. Nocleg jest po naszej stronie. Szczegóły dotyczące śniadania w niedzielę podamy wkrótce.",
+      stay: `Nocleg z soboty na niedzielę. Nocleg jest po naszej stronie. W niedzielę czeka na Was śniadanie (najpewniej w Karczmie) — dokładną godzinę podamy wkrótce (${TBD}).`,
     },
     bus: [
       {
@@ -85,7 +85,7 @@ export const groups: GuestGroup[] = [
     label: "Poprawiny",
     title: "Poprawiny",
     intro:
-      "W niedzielę zapraszamy w mniej formalnym gronie na wspólne wspominanie — na spokojnie, każdy w swoim tempie.",
+      "W niedzielę zapraszamy w mniej formalnym gronie na wspólne wspominanie — na spokojnie, każdy w swoim tempie. Na start podamy obiad, a później grill i tańce.",
     hotel: {
       heading: "Miejsce",
       name: "Siedlisko Cztery Drogi",
@@ -95,8 +95,12 @@ export const groups: GuestGroup[] = [
     },
     bus: [
       {
-        label: "Transport",
-        detail: `Podstawimy mały busik, który odwiezie gości w okolice — do Grodziska oraz Rzeszowa. Dokładne godziny podamy wkrótce (${TBD}).`,
+        label: "Dojazd",
+        detail: `Podstawimy autokar: z Rzeszowa podjeżdża około 13:30 i rusza o 14:00, po drodze zabiera Gości z Grodziska i okolic — na miejscu jesteśmy około 15:30. Dokładna trasa i szczegóły (${TBD}).`,
+      },
+      {
+        label: "Powrót",
+        detail: `Powrót do Rzeszowa planujemy na 22:00. Po Grodzisku i okolicy kursy będą częstsze. Szczegóły dopinamy (${TBD}).`,
       },
     ],
     extra:

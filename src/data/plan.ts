@@ -15,8 +15,8 @@ const VILLA_MAPS =
 export const plan: PlanItem[] = [
   {
     time: "Przed 14:00",
-    title: "Bez wykupin — spotykamy się w kościele",
-    note: "Nie planujemy tradycyjnych wykupin panny młodej na Grodzisku Nowym 47. Na błogosławieństwo do Młodych przyjeżdża tylko najbliższa rodzina — wszyscy pozostali Goście spotykają się od razu przed kościołem, a razem widzimy się już w środku.",
+    title: "Spotykamy się pod kościołem",
+    note: "Tego dnia widzimy się od razu pod kościołem — nie ma zbiórki pod domem Panny Młodej. Na krótkie błogosławieństwo do Młodych wpada tylko najbliższa rodzina, a wszyscy pozostali Goście czekają na nas przed kościołem. Razem spotykamy się już w środku.",
     muted: true,
   },
   {
