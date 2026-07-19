@@ -8,13 +8,19 @@ TBD - created by archiving change rebuild-astro-port-landing. Update Purpose aft
 
 ### Requirement: Landing page content
 
-The landing page SHALL display the couple names "Klaudia & Rafał" and the Polish intro copy describing the wedding date and venue.
+The landing page SHALL display the couple names "Klaudia & Rafał" and the Polish intro copy describing the wedding date and venue, and SHALL form the top (hero) section of a single scrolling page that also contains the plan, transport, and FAQ sections.
 
 #### Scenario: Landing renders core content
 
 - **WHEN** a visitor opens the site root
 - **THEN** the couple names "Klaudia & Rafał" are shown
 - **AND** the intro copy states the wedding is on 10 July 2027 at Villa Presto
+
+#### Scenario: Landing is the top of the single page
+
+- **WHEN** the site root loads
+- **THEN** the hero is the first section
+- **AND** anchor navigation is available to reach the plan, transport, and FAQ sections on the same page
 
 ### Requirement: Background photo slideshow
 

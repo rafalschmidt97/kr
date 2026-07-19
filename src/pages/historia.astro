@@ -1,0 +1,109 @@
+---
+import Base from "../layouts/Base.astro";
+import SiteNav from "../components/SiteNav.astro";
+import Slideshow from "../components/Slideshow.astro";
+import { timeline } from "../data/timeline";
+---
+
+<Base title="Nasza historia | Klaudia & Rafał">
+  <main class="historia">
+    <SiteNav current="historia" />
+
+    <h1>Nasza historia</h1>
+    <ol class="timeline">
+      {
+        timeline.map((entry) => (
+          <li class="timeline__item">
+            <span class="timeline__date">{entry.date}</span>
+            <span
+              class:list={[
+                "timeline__title",
+                { "timeline__title--todo": entry.title === "todo" },
+              ]}
+            >
+              {entry.title}
+            </span>
+            {entry.photos && entry.photos.length > 0 && (
+              <div class="timeline__photos timeline__photos--group">
+                <Slideshow
+                  photos={entry.photos}
+                  alt={entry.title}
+                  height={entry.height}
+                />
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="back"><a href="/">← Strona główna</a></p>
+  </main>
+</Base>
+
+<style>
+  .historia {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3.5rem 1.25rem;
+  }
+  .historia h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 1px;
+    margin: 0 0 2.5rem;
+  }
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 2px solid #eadfd6;
+  }
+  .timeline__item {
+    position: relative;
+    padding: 1.25rem 0 1.25rem 1.5rem;
+  }
+  .timeline__item::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #c9a96a;
+  }
+  .timeline__date {
+    display: block;
+    font-size: 0.95rem;
+    color: rgba(0, 0, 0, 0.45);
+    letter-spacing: 0.5px;
+  }
+  .timeline__title {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 0.1rem;
+  }
+  .timeline__title--todo {
+    color: rgba(0, 0, 0, 0.35);
+    font-style: italic;
+  }
+  .timeline__photos {
+    margin-top: 0.6rem;
+    max-width: 420px;
+  }
+  /* Photo groups break out of the narrow column and stretch to the right
+     edge of the viewport. Left edge stays aligned with the text column. */
+  .timeline__photos--group {
+    max-width: none;
+    width: calc(
+      100vw - (100vw - min(640px, 100vw)) / 2 - 1.25rem - 1.5rem - 1rem
+    );
+  }
+  .back {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+</style>

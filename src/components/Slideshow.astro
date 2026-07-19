@@ -1,0 +1,50 @@
+---
+interface Props {
+  photos: string[];
+  alt?: string;
+  height?: number;
+}
+const { photos, alt = "", height } = Astro.props;
+---
+
+<div class="strip" style={height ? `--row-h: ${height}px` : undefined}>
+  {
+    photos.map((src) => (
+      <img src={src} alt={alt} loading="lazy" class="strip__img" />
+    ))
+  }
+</div>
+
+<style>
+  /* Fixed-height row of whole (uncropped) photos, aligned left.
+     Swipe/scroll horizontally to see more. Per-entry height overrides --row-h. */
+  .strip {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .strip::-webkit-scrollbar {
+    display: none;
+  }
+  .strip__img {
+    display: block;
+    height: var(--row-h, 440px);
+    width: auto;
+    flex: 0 0 auto;
+    object-fit: contain;
+    border-radius: 4px;
+    scroll-snap-align: start;
+  }
+
+  @media screen and (max-width: 768px) {
+    .strip__img {
+      height: var(--row-h, 300px);
+    }
+  }
+</style>

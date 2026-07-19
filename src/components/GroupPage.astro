@@ -1,0 +1,121 @@
+---
+import Base from "../layouts/Base.astro";
+import SiteNav from "./SiteNav.astro";
+import { rsvp } from "../data/site";
+import type { GuestGroup } from "../data/groups";
+
+interface Props {
+  group: GuestGroup;
+}
+const { group } = Astro.props;
+---
+
+<Base title={`${group.title} | Klaudia & Rafał`} noindex={true}>
+  <main class="group">
+    <SiteNav />
+    <h1>{group.title}</h1>
+    <p class="group__intro">{group.intro}</p>
+
+    {
+      group.hotel && (
+        <section class="group__block">
+          <h2>Nocleg</h2>
+          <p class="group__hotel-name">
+            {group.hotel.url ? (
+              <a
+                href={group.hotel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {group.hotel.name}
+              </a>
+            ) : (
+              group.hotel.name
+            )}
+          </p>
+          <p>{group.hotel.stay}</p>
+          {group.hotel.mapsUrl && (
+            <p>
+              <a
+                href={group.hotel.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Zobacz na mapie
+              </a>
+            </p>
+          )}
+        </section>
+      )
+    }
+
+    {
+      group.bus && (
+        <section class="group__block">
+          <h2>Transport</h2>
+          {group.bus.map((b) => (
+            <div class="group__bus">
+              <h3>{b.label}</h3>
+              <p>{b.detail}</p>
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    {group.extra && <p class="group__extra">{group.extra}</p>}
+
+    <p class="group__rsvp">{rsvp.note}</p>
+    <p class="back"><a href="/">← Strona główna</a></p>
+  </main>
+</Base>
+
+<style>
+  .group {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3.5rem 1.25rem;
+  }
+  .group h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0 0 1rem;
+  }
+  .group__intro {
+    font-size: 1.05rem;
+    color: rgba(0, 0, 0, 0.75);
+    margin-bottom: 2rem;
+  }
+  .group__block {
+    padding: 1.25rem 0;
+    border-top: 1px solid #eee;
+  }
+  .group__block h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+  }
+  .group__hotel-name {
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+  }
+  .group__bus h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0.75rem 0 0.25rem;
+  }
+  .group__bus p,
+  .group__block p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+  }
+  .group__rsvp {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .back {
+    margin-top: 2rem;
+  }
+</style>

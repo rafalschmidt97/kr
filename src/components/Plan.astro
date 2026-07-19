@@ -1,0 +1,81 @@
+---
+import Section from "./Section.astro";
+import { plan } from "../data/plan";
+---
+
+<Section id="plan" title="Plan dnia">
+  <ol class="plan">
+    {
+      plan.map((item) => (
+        <li class:list={["plan__item", { "plan__item--muted": item.muted }]}>
+          <span class="plan__time">{item.time}</span>
+          <div class="plan__body">
+            <h3 class="plan__title">{item.title}</h3>
+            {item.place && (
+              <p class="plan__place">
+                {item.mapsUrl ? (
+                  <a
+                    href={item.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.place}
+                  </a>
+                ) : (
+                  item.place
+                )}
+              </p>
+            )}
+            {item.address && <p class="plan__address">{item.address}</p>}
+            {item.note && <p class="plan__note">{item.note}</p>}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
+
+<style>
+  .plan {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .plan__item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .plan__item:last-child {
+    border-bottom: none;
+  }
+  .plan__time {
+    flex: 0 0 5rem;
+    font-weight: 600;
+  }
+  .plan__title {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .plan__place,
+  .plan__note {
+    margin: 0.15rem 0;
+    font-size: 0.95rem;
+  }
+  .plan__address {
+    margin: 0.15rem 0;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  .plan__note {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .plan__item--muted .plan__time,
+  .plan__item--muted .plan__title {
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.95rem;
+  }
+</style>

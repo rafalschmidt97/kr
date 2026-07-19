@@ -1,0 +1,8 @@
+---
+import GroupPage from "../components/GroupPage.astro";
+import { groups } from "../data/groups";
+
+const group = groups.find((g) => g.slug === "poprawiny")!;
+---
+
+<GroupPage group={group} />

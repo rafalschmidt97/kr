@@ -27,13 +27,36 @@ Wedding: 10 July 2027, Villa Presto. Polish-language, static site built with
 
 ## Stack & commands
 
-- Astro (static), npm, Node 20+.
+- Astro (static), npm, Node 20+. Font: Manrope (Google Fonts, loaded in Base).
 - `npm run dev` / `npm run build` / `npm run preview`.
 - Conventional commits (commitlint), Husky pre-commit runs lint-staged
   (Prettier). Commits must pass both hooks.
 - Prettier's Astro plugin cannot format inline `<script define:vars>` bodies —
   keep client logic in `src/scripts/*.ts` modules and import them, rather than
   large inline scripts.
+- **Dev cache gotcha:** the Vite dev server sometimes serves stale scoped CSS
+  after edits (styles look wrong / old). Restart with `npm run dev -- --force`
+  and hard-reload, or verify layout against `npm run preview` (fresh build). When
+  measuring/screenshotting the result, prefer `preview` over `dev`.
+
+## Content conventions (`src/data/*.ts`)
+
+Page content lives in typed `src/data/*.ts` modules (`plan.ts`, `faq.ts`,
+`timeline.ts`, `groups.ts`, `site.ts`) rendered by components — edit copy there,
+not in markup. Notes:
+
+- `groups.ts` is the single source of truth for the hidden guest-group pages AND
+  the `?preview=1` panel — add a group once, both update.
+- `timeline.ts` photos live under `public/static/historia/`. Keep data and files
+  in sync: every referenced photo must exist and vice-versa (no orphans). Convert
+  new images to `.jpg` and downscale (~1600px) before adding.
+- `TBD` in `site.ts` is the shared "not finalized yet" placeholder.
+- **Acknowledged trade-off:** this data-module approach is a deliberate choice,
+  not idiomatic Astro (which would use inline HTML for one-off content or Content
+  Collections for entries). It was chosen for fast, low-risk content edits. See
+  `openspec/specs/guest-group-pages/spec.md` → Notes. To make it idiomatic later,
+  fold `faq.ts`/`plan.ts` into components and move `timeline` to a Content
+  Collection.
 
 ## OpenSpec workflow
 
@@ -65,9 +88,8 @@ them.
 
 ## Roadmap / next steps
 
-- **After the Astro migration is live, ask Rafal for the page/content
-  requirements** (which sections the site should have: details, schedule,
-  travel, accommodation, our story, FAQ, …) before building further pages. Do
-  not assume the section list.
+- Site now covers landing/countdown, day plan, FAQ, "Nasza historia" timeline,
+  and hidden per-group pages. Remaining content gaps are placeholders (`TBD`):
+  some bus times and Villa Presto Sunday breakfast — supplied by the couple.
 - Guest-messaging automation (WhatsApp + spreadsheet) will be its own separate
   OpenSpec change later, outside this website.

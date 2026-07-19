@@ -1,0 +1,39 @@
+---
+import Section from "./Section.astro";
+import { faq } from "../data/faq";
+---
+
+<Section id="faq" title="Najczęstsze pytania">
+  <dl class="faq">
+    {
+      faq.map((item) => (
+        <div class="faq__item">
+          <dt class="faq__q">{item.q}</dt>
+          <dd class="faq__a">{item.a}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>
+
+<style>
+  .faq {
+    margin: 0;
+  }
+  .faq__item {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .faq__item:last-child {
+    border-bottom: none;
+  }
+  .faq__q {
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+  }
+  .faq__a {
+    margin: 0;
+    font-size: 0.95rem;
+    color: rgba(0, 0, 0, 0.75);
+  }
+</style>

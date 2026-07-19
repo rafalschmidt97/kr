@@ -5,12 +5,14 @@ export interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const {
   title = "Klaudia & Rafał",
-  description = "Hej! Tu Klaudia i Rafał. Szykujemy się do naszego wielkiego dnia. Nasze wesele odbędzie się 10 lipca 2027 w Villa Presto. Wkrótce pojawią się tutaj szczegółowe informacje dotyczące dojazdu, planu dnia oraz innych atrakcji.",
+  description = "Hej! Tu Klaudia i Rafał. Nasze wesele odbędzie się 10 lipca 2027 w Villa Presto.",
   image = "/static/avatar.png",
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -23,8 +25,18 @@ const imageUrl = new URL(image, Astro.site).href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow"}
+    />
     <link rel="canonical" href={canonical} />
 
     <link
@@ -86,12 +98,59 @@ const imageUrl = new URL(image, Astro.site).href;
     color: var(--color-fg);
     background: var(--color-bg);
     font-family:
-      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+      "Manrope",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Helvetica,
+      Arial,
       sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
   a {
     color: inherit;
+  }
+
+  /* Shared "liquid glass" floating panel — used by the cookie consent banner
+     and the preview panel. Dark translucent glass so white text stays legible
+     over both dark photos and white sections. Position set by the component. */
+  .glass-panel {
+    position: fixed;
+    bottom: 1rem;
+    z-index: 1000;
+    max-width: 20rem;
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #fff;
+    background: rgba(24, 24, 27, 0.55);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+    animation: glass-in 0.4s ease-out;
+  }
+  @supports not (
+    (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+  ) {
+    .glass-panel {
+      background: rgba(24, 24, 27, 0.92);
+    }
+  }
+  @keyframes glass-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .glass-panel[hidden] {
+    display: none;
   }
 </style>

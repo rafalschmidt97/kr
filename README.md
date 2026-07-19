@@ -2,9 +2,10 @@
 
 Wedding website — **[klaudiarafal.pl](https://klaudiarafal.pl)**
 
-Wedding: **10 July 2027, Villa Presto**. A static, Polish-language site
-(save-the-date for now) built with [Astro](https://astro.build) and deployed to
-GitHub Pages.
+Wedding: **10 July 2027, Villa Presto**. A static, Polish-language wedding site
+built with [Astro](https://astro.build) and deployed to GitHub Pages. Includes
+the landing/countdown, day plan, FAQ, an "Our Story" timeline, and hidden
+per-group logistics pages (hotel + transport) shared with guests by direct link.
 
 ## Stack
 
@@ -27,16 +28,46 @@ npm run preview  # preview the production build
 
 ```
 src/
-  pages/index.astro      # the landing page (names, slideshow, countdown, links)
-  layouts/Base.astro     # <head>, SEO/OG meta, favicons, lang=pl
-  components/Analytics.astro  # optional, consent-gated Google Analytics
-  scripts/consent.ts     # consent + GA loader logic
+  pages/
+    index.astro              # landing (hero, glass nav, countdown) + Plan + FAQ
+    historia.astro           # "Nasza historia" timeline
+    goscie-zamiejscowi.astro # hidden: out-of-town guests (Grein Hotel)
+    villa-presto-nocleg.astro# hidden: guests staying at the venue
+    poprawiny.astro          # hidden: Sunday afterparty invitees
+  layouts/Base.astro         # <head>, SEO/OG, favicons, Manrope font, lang=pl,
+                             #   optional noindex, shared .glass-panel styles
+  components/
+    Section.astro            # section wrapper (anchor id + title)
+    Plan.astro, Faq.astro    # main-page sections
+    Slideshow.astro          # horizontal photo row (swipe on mobile)
+    GroupPage.astro          # shared layout for the 3 hidden group pages
+    SiteNav.astro            # top nav for interior pages
+    PreviewPanel.astro       # ?preview=1 panel listing hidden pages
+    Analytics.astro          # optional, consent-gated Google Analytics
+  data/                      # content lives here (see AGENTS.md for the trade-off)
+    plan.ts, faq.ts, timeline.ts, groups.ts, site.ts
+  scripts/                   # client-side TS modules (consent, preview)
 public/
-  CNAME                  # klaudiarafal.pl (custom domain)
-  static/                # photos, avatar/OG image, wedding.ics
-  assets/images/         # favicons
-.github/workflows/pages.yml   # build + deploy to GitHub Pages
+  CNAME                      # klaudiarafal.pl (custom domain)
+  static/                    # landing photos, historia/ photos, wedding.ics
+  assets/images/             # favicons
+.github/workflows/pages.yml  # build + deploy to GitHub Pages
 ```
+
+## Content
+
+Page content (day plan, FAQ, timeline, guest groups) lives in typed
+`src/data/*.ts` modules and is rendered by components — so copy is edited in one
+place. `groups.ts` also drives the `?preview=1` panel. See `AGENTS.md` for the
+deliberate trade-off behind this.
+
+Hidden guest-group pages (`/goscie-zamiejscowi`, `/villa-presto-nocleg`,
+`/poprawiny`) are `noindex`, unlinked from nav, and reachable only by direct URL
+— add `?preview=1` to the site to reveal a panel listing them.
+
+> **Dev cache note:** the Astro dev server (Vite) sometimes serves stale scoped
+> CSS after edits. If styles look wrong, restart with `npm run dev -- --force`
+> and hard-reload (Cmd+Shift+R), or verify against `npm run preview`.
 
 ## Deployment
 
