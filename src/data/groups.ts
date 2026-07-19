@@ -6,10 +6,11 @@ export interface GuestGroup {
   title: string; // page heading
   intro: string;
   hotel?: {
+    heading?: string; // section title, defaults to "Nocleg"
     name: string;
     url?: string;
     mapsUrl?: string;
-    stay: string; // nights + breakfast info
+    stay: string; // nights + breakfast info (or venue description)
   };
   bus?: {
     label: string;
@@ -71,31 +72,34 @@ export const groups: GuestGroup[] = [
           "Dojazd do kościoła (ceremonia o 14:00) organizujecie we własnym zakresie. Z Villa Presto do kościoła jest około 25 minut, więc warto ruszyć spod Villi około 13:15.",
       },
       {
-        label: "Powrót na salę",
+        label: "Powrót",
         detail:
-          "Po ceremonii wracamy razem do Villa Presto — spod kościoła podstawiony będzie autokar dla wszystkich gości.",
+          "Skoro dojedziecie na ceremonię własnym transportem, powrót do Villa Presto też będzie prosty. Gdyby ktoś jednak potrzebował podwózki spod kościoła, dajcie nam znać — podstawimy autokar.",
       },
     ],
     extra:
-      "Przy potwierdzaniu obecności dajcie nam proszę znać, czy potrzebujecie nocleg.",
+      "Nocleg macie już zarezerwowany po naszej stronie — nie musicie o nic się martwić. Gdybyście mieli pytania, dajcie nam znać.",
   },
   {
     slug: "poprawiny",
     label: "Poprawiny",
     title: "Poprawiny",
     intro:
-      "W niedzielę zapraszamy w mniej formalnym gronie na wspólne wspominanie — na spokojnie, każdy w swoim tempie. Spotykamy się w Siedlisku Cztery Drogi od godziny 14:00.",
+      "W niedzielę zapraszamy w mniej formalnym gronie na wspólne wspominanie — na spokojnie, każdy w swoim tempie.",
     hotel: {
+      heading: "Miejsce",
       name: "Siedlisko Cztery Drogi",
       url: "https://siedliskoczterydrogi.pl",
       mapsUrl: "https://maps.app.goo.gl/SECouYpmUXu1t5xeA",
-      stay: "Dla chętnych możliwy dodatkowy nocleg z niedzieli na poniedziałek.",
+      stay: "Spotykamy się w Siedlisku Cztery Drogi od godziny 14:00.",
     },
     bus: [
       {
         label: "Transport",
-        detail: `Mały autokar odwiezie gości w okolice — do Grodziska oraz Rzeszowa (${TBD}).`,
+        detail: `Podstawimy mały busik, który odwiezie gości w okolice — do Grodziska oraz Rzeszowa. Dokładne godziny podamy wkrótce (${TBD}).`,
       },
     ],
+    extra:
+      "Nocleg z niedzieli na poniedziałek jest tam, gdzie nocowaliście z soboty na niedzielę — czyli w Rzeszowie (a jeśli spaliście w Villa Presto, to na tę noc raczej w Rzeszowie). Goście lokalni jak zwykle wracają do siebie. W razie pytań o nocleg dajcie nam znać.",
   },
 ];
