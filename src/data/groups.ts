@@ -22,7 +22,7 @@ export interface GuestGroup {
 export const groups: GuestGroup[] = [
   {
     slug: "goscie-zamiejscowi",
-    label: "Goście zamiejscowi (Grein Hotel)",
+    label: "Goście zamiejscowi",
     title: "Goście zamiejscowi",
     intro:
       "Cieszymy się, że będziecie z nami mimo dalszej drogi! Żebyście mogli w pełni odpocząć i bawić się do końca, zarezerwowaliśmy dla Was nocleg w Grein Hotel i zapewniamy transport na ceremonię oraz z powrotem.",
@@ -81,7 +81,7 @@ export const groups: GuestGroup[] = [
   },
   {
     slug: "poprawiny",
-    label: "Poprawiny (niedziela)",
+    label: "Poprawiny",
     title: "Poprawiny",
     intro:
       "W niedzielę zapraszamy w mniej formalnym gronie na wspólne wspominanie — na spokojnie, każdy w swoim tempie. Spotykamy się w Siedlisku Cztery Drogi od godziny 14:00.",
