@@ -1,5 +1,3 @@
-import { TBD } from "./site";
-
 // Hidden, direct-link-only timelines for the couple and their parents.
 // Far more detailed than the public "Plan dnia"; these are working documents,
 // so most times are still placeholders (draft === true shows a banner).
@@ -31,27 +29,27 @@ export const schedules: Schedule[] = [
     previewLabel: "Harmonogram rodzice",
     title: "Harmonogram — rodzice",
     intro:
-      "Bardziej szczegółowy plan poranka dla rodziców i najbliższej rodziny. To wersja wstępna — dokładne godziny ustalimy bliżej terminu (między innymi po rozmowie z salą na ok. 3 miesiące przed).",
+      "Bardziej szczegółowy plan poranka dla rodziców i najbliższej rodziny. To wersja wstępna — dokładne godziny ustalimy bliżej terminu, między innymi po rozmowie z salą około 3 miesiące przed weselem.",
     draft: true,
     items: [
       {
         time: "11:00",
         title: "Zbiórka w hotelu",
         who: "Para Młoda, fotograf",
-        note: "Przyjeżdżamy do hotelu, fotograf jest już na miejscu — zaczynamy od spotkania i przygotowań.",
+        note: "Przyjeżdżamy do hotelu; fotograf jest już na miejscu. Rozpoczynamy spotkanie i przygotowania.",
         muted: true,
       },
       {
         time: "12:00",
         title: "Rodzice na miejscu",
         who: "Rodzice obojga",
-        note: `Prosimy rodziców o obecność około 12:00. Dokładny przebieg (sesja, błogosławieństwo) doprecyzujemy (${TBD}).`,
+        note: "Prosimy rodziców o obecność około 12:00. Dokładny przebieg sesji i błogosławieństwa doprecyzujemy.",
       },
       {
         time: "12:00",
         title: "First look i sesja",
         who: "Para Młoda, fotograf",
-        note: `Wspólne pierwsze spojrzenie i krótka sesja. Czas orientacyjnie ~45 minut (${TBD}).`,
+        note: "Wspólne pierwsze spojrzenie i krótka sesja. Czas orientacyjnie około 45 minut.",
       },
       {
         time: "12:45",
@@ -62,7 +60,7 @@ export const schedules: Schedule[] = [
       {
         time: "13:00",
         title: "Wyjazd do kościoła",
-        note: "Ruszamy do kościoła — około 20 minut jazdy, plus czas na bramki i zapas.",
+        note: "Wyjazd do kościoła — około 20 minut jazdy, dodatkowy czas na bramki oraz zapas organizacyjny.",
         muted: true,
       },
       {
@@ -79,13 +77,13 @@ export const schedules: Schedule[] = [
     previewLabel: "Harmonogram my",
     title: "Harmonogram — Para Młoda",
     intro:
-      "Nasz roboczy, szczegółowy rozkład poranka — kto, gdzie i co trzeba załatwić, rozpisany dokładniej (docelowo co ~30 minut). Wersja wstępna, będziemy uzupełniać.",
+      "Nasz roboczy, szczegółowy rozkład poranka — kto, gdzie i za co odpowiada, docelowo rozpisany co około 30 minut. To wersja wstępna, którą będziemy uzupełniać.",
     draft: true,
     items: [
       {
         time: "Do ustalenia",
         title: "Telefon do sali",
-        todo: "Na ok. 3 miesiące przed dzwonimy do sali i ustalamy szczegóły — wtedy podejmiemy decyzje o dokładnym planie poranka.",
+        todo: "Około 3 miesiące przed weselem kontaktujemy się z salą i ustalamy szczegóły. Na tej podstawie potwierdzimy dokładny plan poranka.",
         muted: true,
       },
       {
@@ -93,22 +91,22 @@ export const schedules: Schedule[] = [
         title: "Klaudia — przygotowania",
         who: "Klaudia; w środku: Paula, Patka, mama",
         place: "Grodzisko Nowe 47 (ew. pokój w Karczmie Villa Presto)",
-        note: "Klaudia ubiera się od 11:00. Pan Stanisław czeka na korytarzu. Arek i Kalina dojeżdżają prosto do kościoła (rano nie ma ich w Villi).",
-        todo: `Malowanie: Klaudia z mamą (Lucyna) i Patrycją; Mariola, Marta, Magda w Rzeszowie. Potwierdzić pokój w Karczmie (${TBD}).`,
+        note: "Klaudia rozpoczyna ubieranie około 11:00. Pan Stanisław czeka na korytarzu. Arek i Kalina dojeżdżają bezpośrednio do kościoła.",
+        todo: "Malowanie: Klaudia z mamą (Lucyna) i Patrycją; Mariola, Marta, Magda w Rzeszowie. Do potwierdzenia: pokój w Karczmie.",
       },
       {
         time: "11:00",
         title: "Rafał — przygotowania",
         who: "Rafał (drugi pokój)",
-        note: "Magda i Krzysiek dojeżdżają prosto do kościoła (rano nie ma ich w Villi).",
-        todo: "Dopytać rodziców, czy chcą być na ubieraniu Rafała.",
+        note: "Magda i Krzysiek dojeżdżają bezpośrednio do kościoła.",
+        todo: "Do potwierdzenia z rodzicami: czy chcą być obecni przy przygotowaniach Rafała.",
       },
       {
         time: "12:00",
         title: "First look i sesja",
         who: "Para Młoda, fotograf",
         note: "Pierwsze wspólne spojrzenie i sesja.",
-        todo: `Dopytać fotografa, ile trwa sesja przedślubna (przyjęte ~45 minut) (${TBD}).`,
+        todo: "Do potwierdzenia z fotografem: dokładny czas sesji przedślubnej (wstępnie około 45 minut).",
       },
       {
         time: "12:45",
@@ -119,7 +117,7 @@ export const schedules: Schedule[] = [
       {
         time: "13:00",
         title: "Wyjazd do kościoła",
-        note: "~20 minut jazdy + ~20 minut na bramki + ok. 15 minut zapasu.",
+        note: "Około 20 minut jazdy, około 20 minut na bramki oraz około 15 minut zapasu organizacyjnego.",
         muted: true,
       },
       {
@@ -130,7 +128,7 @@ export const schedules: Schedule[] = [
       {
         time: "Do rozpisania",
         title: "Niespodzianki",
-        todo: "Nie mamy jeszcze kompletnie przepracowanego, co znajdzie się w niespodziankach i ile ich będzie.",
+        todo: "Do ustalenia: zakres niespodzianek oraz ich liczba.",
         muted: true,
       },
     ],

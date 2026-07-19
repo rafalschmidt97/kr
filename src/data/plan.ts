@@ -17,7 +17,7 @@ export const plan: PlanItem[] = [
   {
     time: "Przed 14:00",
     title: "Spotykamy się pod kościołem",
-    note: "Tego dnia widzimy się od razu pod kościołem — nie ma zbiórki pod domem Panny Młodej. Na krótkie błogosławieństwo do Młodych wpada tylko najbliższa rodzina, a wszyscy pozostali Goście czekają na nas przed kościołem. Razem spotykamy się już w środku.",
+    note: "Prosimy, aby Goście kierowali się bezpośrednio pod kościół. Na błogosławieństwo przed ceremonią zapraszamy tylko najbliższą rodzinę; ze wszystkimi Gośćmi spotkamy się w kościele.",
     muted: true,
   },
   {
