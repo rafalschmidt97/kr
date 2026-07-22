@@ -45,7 +45,7 @@ export const plan: PlanItem[] = [
   {
     time: "17:00",
     title: "Życzenia i wspólne zdjęcia",
-    note: "Wykorzystując moment składania życzeń, będziemy od razu zapraszać Gości do pamiątkowych zdjęć. Zdjęcia zrobimy po kolei, stolikami — prosimy o spokojne oczekiwanie przy swoich miejscach. Miejsce zdjęć (na zewnątrz lub w środku) potwierdzimy bliżej terminu.",
+    note: "Wykorzystując moment składania życzeń, będziemy zapraszać Gości stolikami — od razu do życzeń i pamiątkowych zdjęć.",
     tentative: true,
   },
   { time: "18:30", title: "Pierwszy taniec" },
