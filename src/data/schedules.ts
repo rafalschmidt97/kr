@@ -12,6 +12,22 @@ export interface ScheduleItem {
   muted?: boolean; // logistics / transitional moment — lighter style
 }
 
+// A single time+text row inside a parallel-track column.
+export interface TrackRow {
+  time: string;
+  text: string;
+  tentative?: boolean; // shows a "do potwierdzenia" badge on the row
+}
+
+// Two side-by-side morning tracks (e.g. Klaudia | Rafał), rendered as columns.
+export interface ParallelTracks {
+  heading?: string; // optional section heading above the columns
+  columns: {
+    label: string;
+    rows: TrackRow[];
+  }[];
+}
+
 export interface Schedule {
   slug: string; // route slug, no leading slash
   label: string; // page-level label / heading fallback
@@ -19,6 +35,7 @@ export interface Schedule {
   title: string; // page heading
   intro: string;
   draft?: boolean; // shows a "roboczy / do ustalenia" banner
+  parallel?: ParallelTracks; // optional two-column block, shown before items
   items: ScheduleItem[];
 }
 
@@ -79,6 +96,37 @@ export const schedules: Schedule[] = [
     intro:
       "Nasz roboczy, szczegółowy rozkład poranka — kto, gdzie i za co odpowiada, docelowo rozpisany co około 30 minut. To wersja wstępna, którą będziemy uzupełniać.",
     draft: true,
+    parallel: {
+      heading: "Poranek — dwutorowo (do ~11:30)",
+      columns: [
+        {
+          label: "Klaudia",
+          rows: [
+            { time: "8:30", text: "Fryzjer" },
+            { time: "9:30", text: "Makijaż" },
+            {
+              time: "10:30",
+              text: "Transport do Villa Presto",
+              tentative: true,
+            },
+            { time: "11:00", text: "Ubieranie — fotograf" },
+            { time: "11:30", text: "Ubieranie — nagranie filmowe" },
+          ],
+        },
+        {
+          label: "Rafał",
+          rows: [
+            { time: "8:30", text: "Kwiaty od dekoratorki" },
+            { time: "9:00", text: "Odbiór auta" },
+            {
+              time: "10:00",
+              text: "Ubieranie (szybciej niż Klaudia, pod fotografa)",
+            },
+            { time: "11:00", text: "Nagranie filmowe", tentative: true },
+          ],
+        },
+      ],
+    },
     items: [
       {
         time: "Do ustalenia",
@@ -87,19 +135,13 @@ export const schedules: Schedule[] = [
         muted: true,
       },
       {
-        time: "11:00",
-        title: "Klaudia — przygotowania",
-        who: "Klaudia; w środku: Paula, Patka, mama",
+        time: "Poranek",
+        title: "Przygotowania — szczegóły",
+        who: "Klaudia: w pokoju Paula, Patka, mama; Pan Stanisław na korytarzu. Rafał: drugi pokój.",
         place: "Grodzisko Nowe 47 (ew. pokój w Karczmie Villa Presto)",
-        note: "Klaudia rozpoczyna ubieranie około 11:00. Pan Stanisław czeka na korytarzu. Arek i Kalina dojeżdżają bezpośrednio do kościoła.",
-        todo: "Malowanie: Klaudia z mamą (Lucyna) i Patrycją; Mariola, Marta, Magda w Rzeszowie. Do potwierdzenia: pokój w Karczmie.",
-      },
-      {
-        time: "11:00",
-        title: "Rafał — przygotowania",
-        who: "Rafał (drugi pokój)",
-        note: "Magda i Krzysiek dojeżdżają bezpośrednio do kościoła.",
-        todo: "Do potwierdzenia z rodzicami: czy chcą być obecni przy przygotowaniach Rafała.",
+        note: "Arek i Kalina oraz Magda i Krzysiek dojeżdżają bezpośrednio do kościoła.",
+        todo: "Malowanie: Klaudia z mamą (Lucyna) i Patrycją; Mariola, Marta, Magda w Rzeszowie. Do potwierdzenia: pokój w Karczmie oraz czy rodzice chcą być przy przygotowaniach Rafała.",
+        muted: true,
       },
       {
         time: "12:00",
@@ -124,6 +166,55 @@ export const schedules: Schedule[] = [
         time: "14:00",
         title: "Ceremonia ślubna",
         place: "Kościół pw. św. Andrzeja Apostoła",
+      },
+      {
+        time: "17:00",
+        title: "Życzenia i zdjęcia stolikami",
+        note: "Po złożeniu życzeń zapraszamy Gości od razu do pamiątkowych zdjęć. Wołamy kolejne stoliki; Goście czekają przy swoich miejscach.",
+        todo: "Do potwierdzenia: miejsce zdjęć — ścianka na zewnątrz albo w środku. Zakładany czas: około 1,5 godziny.",
+      },
+      {
+        time: "18:30",
+        title: "Pierwszy taniec",
+      },
+      {
+        time: "18:35",
+        title: "Slot muzyczny 1",
+        note: "Zakładany slot około 30 minut. Nie pokazujemy tej informacji w głównym harmonogramie.",
+        muted: true,
+      },
+      {
+        time: "19:00",
+        title: "I kolacja",
+        note: "Zakładany czas: około 30 minut. Godzina 19:00 wygląda dobrze, ale do konsultacji z salą (alternatywa: 20:00).",
+      },
+      {
+        time: "19:30",
+        title: "Slot muzyczny 2",
+        note: "Zakładany slot około 30 minut.",
+        muted: true,
+      },
+      {
+        time: "20:00",
+        title: "Krótka przerwa / przejście",
+        todo: "Do ustalenia: dokładny przebieg po drugim slocie muzycznym.",
+        muted: true,
+      },
+      {
+        time: "Do ustalenia",
+        title: "Podziękowania dla rodziców",
+        note: "Chcemy zrobić ten moment wcześniej niż zwykle.",
+        todo: "Ustalić dokładną godzinę i formę podziękowań.",
+      },
+      {
+        time: "Do ustalenia",
+        title: "Slot muzyczny 3",
+        note: "Zakładany slot około 30 minut.",
+        muted: true,
+      },
+      {
+        time: "22:00",
+        title: "II kolacja",
       },
       {
         time: "Do rozpisania",
