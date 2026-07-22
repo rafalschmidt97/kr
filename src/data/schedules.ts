@@ -41,54 +41,6 @@ export interface Schedule {
 
 export const schedules: Schedule[] = [
   {
-    slug: "harmonogram-rodzice",
-    label: "Harmonogram — rodzice",
-    previewLabel: "Harmonogram rodzice",
-    title: "Harmonogram — rodzice",
-    intro:
-      "Bardziej szczegółowy plan poranka dla rodziców i najbliższej rodziny. To wersja wstępna — dokładne godziny ustalimy bliżej terminu, między innymi po rozmowie z salą około 3 miesiące przed weselem.",
-    draft: true,
-    items: [
-      {
-        time: "11:00",
-        title: "Zbiórka w hotelu",
-        who: "Para Młoda, fotograf",
-        note: "Przyjeżdżamy do hotelu; fotograf jest już na miejscu. Rozpoczynamy spotkanie i przygotowania.",
-        muted: true,
-      },
-      {
-        time: "12:00",
-        title: "Rodzice na miejscu",
-        who: "Rodzice obojga",
-        note: "Prosimy rodziców o obecność około 12:00. Dokładny przebieg sesji i błogosławieństwa doprecyzujemy.",
-      },
-      {
-        time: "12:00",
-        title: "First look i sesja",
-        who: "Para Młoda, fotograf",
-        note: "Wspólne pierwsze spojrzenie i krótka sesja. Czas orientacyjnie około 45 minut.",
-      },
-      {
-        time: "12:45",
-        title: "Błogosławieństwo",
-        who: "Para Młoda, najbliższa rodzina",
-        note: "Krótkie błogosławieństwo do Młodych — około 15 minut.",
-      },
-      {
-        time: "13:00",
-        title: "Wyjazd do kościoła",
-        note: "Wyjazd do kościoła — około 20 minut jazdy, dodatkowy czas na bramki oraz zapas organizacyjny.",
-        muted: true,
-      },
-      {
-        time: "14:00",
-        title: "Ceremonia ślubna",
-        place: "Kościół pw. św. Andrzeja Apostoła",
-        note: "Dalej zgodnie z planem dnia dla wszystkich Gości.",
-      },
-    ],
-  },
-  {
     slug: "harmonogram-mlodzi",
     label: "Harmonogram — my",
     previewLabel: "Harmonogram my",
