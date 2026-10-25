@@ -22,6 +22,7 @@ npm install
 npm run dev      # local dev server at http://localhost:4321
 npm run build    # static build to ./dist
 npm run preview  # preview the production build
+npm run preview:lan # phone preview on this Mac (run build first)
 ```
 
 ## Project layout
@@ -34,6 +35,7 @@ src/
     goscie-zamiejscowi.astro # hidden: out-of-town guests (Grein Hotel)
     villa-presto-nocleg.astro# hidden: guests staying at the venue
     poprawiny.astro          # hidden: Sunday afterparty invitees
+    harmonogram-mlodzi.astro # hidden: detailed working schedule for the couple
   layouts/Base.astro         # <head>, SEO/OG, favicons, Manrope font, lang=pl,
                              #   optional noindex, shared .glass-panel styles
   components/
@@ -45,13 +47,14 @@ src/
     PreviewPanel.astro       # ?preview=1 panel listing hidden pages
     Analytics.astro          # optional, consent-gated Google Analytics
   data/                      # content lives here (see AGENTS.md for the trade-off)
-    plan.ts, faq.ts, timeline.ts, groups.ts, site.ts
+    plan.ts, faq.ts, timeline.ts, groups.ts, schedules.ts, site.ts
   scripts/                   # client-side TS modules (consent, preview)
 public/
   CNAME                      # klaudiarafal.pl (custom domain)
   static/                    # landing photos, historia/ photos, wedding.ics
   assets/images/             # favicons
 .github/workflows/pages.yml  # build + deploy to GitHub Pages
+.github/workflows/ci.yml     # build-only checks for PRs targeting main
 ```
 
 ## Content
@@ -62,7 +65,7 @@ place. `groups.ts` also drives the `?preview=1` panel. See `AGENTS.md` for the
 deliberate trade-off behind this.
 
 Hidden guest-group pages (`/goscie-zamiejscowi`, `/villa-presto-nocleg`,
-`/poprawiny`) are `noindex`, unlinked from nav, and reachable only by direct URL
+`/poprawiny`, plus `/harmonogram-mlodzi`) are `noindex`, unlinked from nav, and reachable only by direct URL
 — add `?preview=1` to the site to reveal a panel listing them.
 
 > **Dev cache note:** the Astro dev server (Vite) sometimes serves stale scoped
@@ -75,6 +78,14 @@ Push to `main` → GitHub Actions builds the Astro site
 (`withastro/action`) and publishes to GitHub Pages (`actions/deploy-pages`).
 The custom domain is preserved via `public/CNAME`; asset paths resolve at the
 domain root, so no post-build path rewriting is needed.
+
+Klaudia's edits stay on `klaudia/strona` with a PR; Rafał merges manually.
+PR updates run a build check without publishing. An explicit manual **Deploy**
+run selecting `klaudia/strona` publishes that branch to the same public domain
+without merging. This replaces the public site, not a separate test environment.
+The `github-pages` environment allows `main` and that exact editing branch.
+See [the editing-session guide](docs/editing-session.md) for phone preview,
+publication, and restoring main.
 
 ## Analytics
 

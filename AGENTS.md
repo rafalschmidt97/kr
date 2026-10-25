@@ -8,6 +8,19 @@ The wedding website for Klaudia & Rafał — **[klaudiarafal.pl](https://klaudia
 Wedding: 10 July 2027, Villa Presto. Polish-language, static site built with
 **Astro**, deployed to **GitHub Pages**.
 
+## Editing with Klaudia
+
+- Klaudia is nontechnical. Speak Polish, describe visible results, and handle
+  Git, builds, images, and CI yourself. Ask short questions about intent, not tooling.
+- Work on `klaudia/strona` with a PR to `main`. Commit and push completed,
+  validated edits to that branch and keep the PR current. **Only Rafał merges
+  manually on GitHub. Never merge, enable auto-merge, or push to main.**
+- Local approval means update the preview, not publish. Deploy to
+  `klaudiarafal.pl` only after an explicit publication request. Explain that this
+  replaces the public site for all guests, even though the PR remains unmerged.
+- For session startup, phone preview, photo intake, publication, restoration,
+  or resuming after a restart, read `docs/editing-session.md` before acting.
+
 ## Hard constraints (do not violate)
 
 - **Purely static.** Never introduce a server, database, or serverless backend.
@@ -47,10 +60,12 @@ not in markup. Notes:
 
 - `groups.ts` is the single source of truth for the hidden guest-group pages AND
   the `?preview=1` panel — add a group once, both update.
+- `schedules.ts` drives the hidden `/harmonogram-mlodzi` page and its preview link.
 - `timeline.ts` photos live under `public/static/historia/`. Keep data and files
   in sync: every referenced photo must exist and vice-versa (no orphans). Convert
   new images to `.jpg` and downscale (~1600px) before adding.
-- `TBD` in `site.ts` is the shared "not finalized yet" placeholder.
+- Pending logistics use `tentative` badges or schedule `todo` notes; confirm
+  uncertain details with the couple rather than inventing times.
 - **Acknowledged trade-off:** this data-module approach is a deliberate choice,
   not idiomatic Astro (which would use inline HTML for one-off content or Content
   Collections for entries). It was chosen for fast, low-risk content edits. See
