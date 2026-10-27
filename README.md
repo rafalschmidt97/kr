@@ -1,106 +1,35 @@
 # Klaudia & Rafał
 
-Wedding website — **[klaudiarafal.pl](https://klaudiarafal.pl)**
+[klaudiarafal.pl](https://klaudiarafal.pl) is our Polish-language wedding site for
+10 July 2027 at Villa Presto. It includes the landing/countdown, day plan, FAQ,
+the seven-chapter "Nasza historia" with a page-memory predictions preview, and
+direct-link logistics pages. The current working-tree story is described in
+the [story contract](openspec/specs/our-story/spec.md).
 
-Wedding: **10 July 2027, Villa Presto**. A static, Polish-language wedding site
-built with [Astro](https://astro.build) and deployed to GitHub Pages. Includes
-the landing/countdown, day plan, FAQ, an "Our Story" timeline, and hidden
-per-group logistics pages (hotel + transport) shared with guests by direct link.
+## Local development
 
-## Stack
+Follow [local setup](docs/setup.md) for Node/npm prerequisites, installation,
+development, and a production-like preview. For an existing editing session,
+reuse its server and follow [the phone-preview guide](docs/editing-session.md),
+including its stale-CSS and process-ownership notes.
 
-- **[Astro](https://astro.build)** — static output, zero JS by default
-- **GitHub Pages** — custom domain `klaudiarafal.pl` (HTTPS enforced), deployed
-  from GitHub Actions
-- **npm** + Node 20+
-- Conventional commits (commitlint) · Husky · lint-staged · Prettier
+## Find the right document
 
-## Getting started
+- Agents: [AGENTS.md](AGENTS.md). Claude Code enters through [CLAUDE.md](CLAUDE.md).
+- Where to edit: [architecture and routes](docs/architecture.md),
+  [browser flows](docs/flows.md), and [API/external boundaries](docs/api.md).
+- How to work: [Klaudia/Rafał modes and authorization](docs/contributing.md),
+  [coding/content standards](docs/coding-standards.md).
+- What must hold: [invariants](docs/invariants.md) and [OpenSpec contracts](openspec/specs/).
+- How to verify: [quality guide](docs/quality.md).
+- Why typed content: [decision record](docs/adr/0001-typed-content-for-editing.md).
+- How to record decisions: [ADR practice and template](docs/adr/0002-record-architecture-decisions.md).
+- Terminology: [glossary](GLOSSARY.md). Verified audit coverage:
+  [repository inventory](docs/repository-inventory.md).
+- Further investigation and content decisions: [roadmap](docs/roadmap.md).
 
-```sh
-npm install
-npm run dev      # local dev server at http://localhost:4321
-npm run build    # static build to ./dist
-npm run preview  # preview the production build
-npm run preview:lan # phone preview on this Mac (run build first)
-```
-
-## Project layout
-
-```
-src/
-  pages/
-    index.astro              # landing (hero, glass nav, countdown) + Plan + FAQ
-    historia.astro           # "Nasza historia" timeline
-    goscie-zamiejscowi.astro # hidden: out-of-town guests (Grein Hotel)
-    villa-presto-nocleg.astro# hidden: guests staying at the venue
-    poprawiny.astro          # hidden: Sunday afterparty invitees
-    harmonogram-mlodzi.astro # hidden: detailed working schedule for the couple
-  layouts/Base.astro         # <head>, SEO/OG, favicons, Manrope font, lang=pl,
-                             #   optional noindex, shared .glass-panel styles
-  components/
-    Section.astro            # section wrapper (anchor id + title)
-    Plan.astro, Faq.astro    # main-page sections
-    Slideshow.astro          # horizontal photo row (swipe on mobile)
-    GroupPage.astro          # shared layout for the 3 hidden group pages
-    SiteNav.astro            # top nav for interior pages
-    PreviewPanel.astro       # ?preview=1 panel listing hidden pages
-    Analytics.astro          # optional, consent-gated Google Analytics
-  data/                      # content lives here (see AGENTS.md for the trade-off)
-    plan.ts, faq.ts, timeline.ts, groups.ts, schedules.ts, site.ts
-  scripts/                   # client-side TS modules (consent, preview)
-public/
-  CNAME                      # klaudiarafal.pl (custom domain)
-  static/                    # landing photos, historia/ photos, wedding.ics
-  assets/images/             # favicons
-.github/workflows/pages.yml  # build + deploy to GitHub Pages
-.github/workflows/ci.yml     # build-only checks for PRs targeting main
-```
-
-## Content
-
-Page content (day plan, FAQ, timeline, guest groups) lives in typed
-`src/data/*.ts` modules and is rendered by components — so copy is edited in one
-place. `groups.ts` also drives the `?preview=1` panel. See `AGENTS.md` for the
-deliberate trade-off behind this.
-
-Hidden guest-group pages (`/goscie-zamiejscowi`, `/villa-presto-nocleg`,
-`/poprawiny`, plus `/harmonogram-mlodzi`) are `noindex`, unlinked from nav, and reachable only by direct URL
-— add `?preview=1` to the site to reveal a panel listing them.
-
-> **Dev cache note:** the Astro dev server (Vite) sometimes serves stale scoped
-> CSS after edits. If styles look wrong, restart with `npm run dev -- --force`
-> and hard-reload (Cmd+Shift+R), or verify against `npm run preview`.
-
-## Deployment
-
-Push to `main` → GitHub Actions builds the Astro site
-(`withastro/action`) and publishes to GitHub Pages (`actions/deploy-pages`).
-The custom domain is preserved via `public/CNAME`; asset paths resolve at the
-domain root, so no post-build path rewriting is needed.
-
-Klaudia's edits stay on `klaudia/strona` with a PR; Rafał merges manually.
-PR updates run a build check without publishing. An explicit manual **Deploy**
-run selecting `klaudia/strona` publishes that branch to the same public domain
-without merging. This replaces the public site, not a separate test environment.
-The `github-pages` environment allows `main` and that exact editing branch.
-See [the editing-session guide](docs/editing-session.md) for phone preview,
-publication, and restoring main.
-
-## Analytics
-
-Google Analytics is **optional and consent-gated**. It loads only when
-`PUBLIC_GA_ID` is set (see `.env`) and only after the visitor accepts cookies.
-Remove the variable to disable analytics entirely — no script, no banner.
-
-## Guest communication (not part of this site)
-
-RSVP and guest messaging are handled **outside** the website — over WhatsApp,
-one-to-one, with the guest list kept in a Google Spreadsheet. The site stays
-purely static: no forms, no database, no backend.
-
-## Specs & planning
-
-This repo uses [OpenSpec](https://openspec.dev) for spec-driven changes.
-The current behaviour contract lives in `openspec/specs/`. See
-[`AGENTS.md`](./AGENTS.md) for the workflow and conventions.
+Astro produces static files for GitHub Pages. Build/deploy mechanics and browser
+configuration are mapped in [architecture](docs/architecture.md#build-and-external-boundaries).
+Publishing is a separate operation governed by
+[authorization](docs/contributing.md#authorization-and-git); operational steps
+are in [the editing guide](docs/editing-session.md#publikacja-i-przywracanie).

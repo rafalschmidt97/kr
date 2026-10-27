@@ -2,7 +2,7 @@
 
 ## Purpose
 
-TBD - created by archiving change rebuild-astro-port-landing. Update Purpose after archive.
+Define optional analytics and remembered consent before Google tracking loads.
 
 ## Requirements
 
@@ -19,12 +19,12 @@ The site SHALL support Google Analytics, enabled only when a tracking ID is conf
 #### Scenario: Analytics not configured
 
 - **WHEN** no tracking ID is configured
-- **THEN** no analytics script is loaded
+- **THEN** no Google Analytics loader or tracking request is made
 - **AND** the site renders and functions normally
 
 ### Requirement: Cookie consent gating
 
-When analytics is configured, it SHALL only run after the visitor has given consent via a cookie-consent banner, and the choice SHALL be persisted.
+When analytics is configured, it SHALL only run after the visitor has given consent via a cookie-consent banner. The choice SHALL be persisted when browser storage is available; unavailable storage SHALL NOT prevent the current-page choice from working.
 
 #### Scenario: Banner shown to new visitor
 
@@ -41,7 +41,15 @@ When analytics is configured, it SHALL only run after the visitor has given cons
 #### Scenario: Choice persisted
 
 - **WHEN** a visitor has already made a consent choice
+- **AND** browser storage retained that choice
 - **THEN** the banner is not shown again and the prior choice is honored
+
+#### Scenario: Browser storage unavailable
+
+- **WHEN** reading or writing the consent choice fails
+- **THEN** accept and reject remain usable for the current page
+- **AND** Google Analytics loads only after acceptance or a successfully read stored acceptance
+- **AND** a later page load asks again if no choice was retained
 
 #### Scenario: No banner when analytics disabled
 

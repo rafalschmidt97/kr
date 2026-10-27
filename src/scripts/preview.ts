@@ -7,16 +7,23 @@ const STORAGE_KEY = "kr-preview";
 export function initPreview(): void {
   const params = new URLSearchParams(window.location.search);
   const flag = params.get("preview");
-  if (flag === "1") {
-    localStorage.setItem(STORAGE_KEY, "1");
-  } else if (flag === "0") {
-    localStorage.removeItem(STORAGE_KEY);
+  let active = flag === "1";
+  try {
+    if (flag === "1") {
+      localStorage.setItem(STORAGE_KEY, "1");
+    } else if (flag === "0") {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    active =
+      flag === "1" ||
+      (flag !== "0" && localStorage.getItem(STORAGE_KEY) === "1");
+  } catch {
+    // The explicit URL flag still works when its choice cannot be remembered.
   }
 
   const more = document.getElementById("preview-more");
   if (!more) return;
 
-  const active = localStorage.getItem(STORAGE_KEY) === "1";
   more.hidden = !active;
   if (!active) return;
 
@@ -46,7 +53,11 @@ export function initPreview(): void {
 
   // "Wyłącz podgląd" turns preview off without needing the URL.
   off?.addEventListener("click", () => {
-    localStorage.removeItem(STORAGE_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Always allow hiding preview for the current page.
+    }
     more.hidden = true;
     setOpen(false);
   });

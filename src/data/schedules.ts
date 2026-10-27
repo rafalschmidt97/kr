@@ -97,7 +97,7 @@ export const schedules: Schedule[] = [
       },
       {
         time: "12:00",
-        title: "First look i sesja",
+        title: "Pierwsze spojrzenie i sesja",
         who: "Para Młoda, fotograf",
         note: "Pierwsze wspólne spojrzenie i sesja.",
         todo: "Do potwierdzenia z fotografem: dokładny czas sesji przedślubnej (wstępnie około 45 minut).",

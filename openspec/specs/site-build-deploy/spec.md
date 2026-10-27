@@ -2,7 +2,9 @@
 
 ## Purpose
 
-TBD - created by archiving change rebuild-astro-port-landing. Update Purpose after archive.
+Define static generation, build-only PR validation, and GitHub Pages delivery
+to the custom domain. Operator authorization is governed by
+[the contribution guide](../../../docs/contributing.md#authorization-and-git).
 
 ## Requirements
 

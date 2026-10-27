@@ -35,7 +35,12 @@ export function initConsentAnalytics(gaId: string): void {
     if (banner) banner.hidden = true;
   }
 
-  const stored = localStorage.getItem(STORAGE_KEY);
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem(STORAGE_KEY);
+  } catch {
+    // Without storage, ask again and honor the choice for this page only.
+  }
   if (stored === "accepted") {
     loadGA();
   } else if (stored === "rejected") {
@@ -46,13 +51,22 @@ export function initConsentAnalytics(gaId: string): void {
 
   const accept = document.getElementById("consent-accept");
   const reject = document.getElementById("consent-reject");
+
+  function rememberChoice(choice: "accepted" | "rejected") {
+    try {
+      localStorage.setItem(STORAGE_KEY, choice);
+    } catch {
+      // Remembering a choice is optional; the current-page action still works.
+    }
+  }
+
   accept?.addEventListener("click", () => {
-    localStorage.setItem(STORAGE_KEY, "accepted");
+    rememberChoice("accepted");
     hideBanner();
     loadGA();
   });
   reject?.addEventListener("click", () => {
-    localStorage.setItem(STORAGE_KEY, "rejected");
+    rememberChoice("rejected");
     hideBanner();
   });
 }

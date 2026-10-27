@@ -2,13 +2,14 @@
 
 ## Purpose
 
-TBD - created by archiving change add-guest-info-pages. Update Purpose after archive.
+Define the guest-facing wedding-day schedule, including ceremony, reception,
+shared transport, and provisional details.
 
 ## Requirements
 
 ### Requirement: Ceremony and reception details
 
-The plan section SHALL present the church ceremony and the Villa Presto reception with locations, map links, and start/arrival times, without a minute-by-minute timeline.
+The plan section SHALL present the wedding-day schedule in authored order, including the church ceremony and Villa Presto reception with locations, map links, and start/arrival times. It SHALL include the authored meals, celebrations, and shared transport entries, with provisional times clearly marked.
 
 #### Scenario: Ceremony details shown
 
@@ -20,7 +21,8 @@ The plan section SHALL present the church ceremony and the Villa Presto receptio
 - **WHEN** a visitor views the plan section
 - **THEN** the Villa Presto reception is shown with a map link
 
-#### Scenario: No detailed timeline
+#### Scenario: Detailed guest schedule
 
 - **WHEN** the plan section is displayed
-- **THEN** only arrival/start (and any hard cut-off) times are shown, not a full minute-by-minute schedule
+- **THEN** the authored ceremony, reception, meals, celebrations, and bus entries are shown in order
+- **AND** entries marked tentative display a confirmation notice

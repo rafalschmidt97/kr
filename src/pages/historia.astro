@@ -1,109 +1,99 @@
 ---
 import Base from "../layouts/Base.astro";
 import SiteNav from "../components/SiteNav.astro";
-import Slideshow from "../components/Slideshow.astro";
-import { timeline } from "../data/timeline";
+import StoryChapter from "../components/StoryChapter.astro";
+import WeddingPredictions from "../components/WeddingPredictions.astro";
+import { storyChapters } from "../data/story";
 ---
 
 <Base title="Nasza historia | Klaudia & Rafał">
   <main class="historia">
     <SiteNav current="historia" />
 
-    <h1>Nasza historia</h1>
-    <ol class="timeline">
-      {
-        timeline.map((entry) => (
-          <li class="timeline__item">
-            <span class="timeline__date">{entry.date}</span>
-            <span
-              class:list={[
-                "timeline__title",
-                { "timeline__title--todo": entry.title === "todo" },
-              ]}
-            >
-              {entry.title}
-            </span>
-            {entry.photos && entry.photos.length > 0 && (
-              <div class="timeline__photos timeline__photos--group">
-                <Slideshow
-                  photos={entry.photos}
-                  alt={entry.title}
-                  height={entry.height}
-                />
-              </div>
-            )}
-          </li>
-        ))
-      }
-    </ol>
+    <header class="story-intro">
+      <p class="story-intro__label">Nasza historia</p>
+      <h1>Zaskakująco<br />dobry plan</h1>
+      <p class="story-intro__subtitle">
+        Niektóre rzeczy zaplanowaliśmy. Inne po prostu się wydarzyły.
+      </p>
+      <span class="story-intro__rule" aria-hidden="true"></span>
+      <p class="story-intro__note">
+        Klaudia &amp; Rafał <span aria-hidden="true">·</span> W siedmiu rozdziałach
+      </p>
+    </header>
+
+    <div class="story-chapters">
+      {storyChapters.map((chapter) => <StoryChapter chapter={chapter} />)}
+    </div>
+
+    <WeddingPredictions />
     <p class="back"><a href="/">← Strona główna</a></p>
   </main>
 </Base>
 
 <style>
   .historia {
-    max-width: 640px;
+    max-width: 1080px;
     margin: 0 auto;
     padding: 3.5rem 1.25rem;
   }
-  .historia h1 {
-    font-size: 2rem;
-    font-weight: 400;
+  .story-intro {
+    padding: 2rem 0 4.5rem;
     text-align: center;
-    letter-spacing: 1px;
-    margin: 0 0 2.5rem;
   }
-  .timeline {
-    list-style: none;
+  .story-intro__label {
+    margin: 0 0 1.5rem;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .story-intro h1 {
     margin: 0;
-    padding: 0;
-    border-left: 2px solid #eadfd6;
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+    text-wrap: balance;
   }
-  .timeline__item {
-    position: relative;
-    padding: 1.25rem 0 1.25rem 1.5rem;
+  .story-intro__subtitle {
+    margin: 1.5rem auto 0;
+    max-width: 22rem;
+    color: rgba(0, 0, 0, 0.57);
+    font-size: 1rem;
+    line-height: 1.8;
+    text-wrap: balance;
   }
-  .timeline__item::before {
-    content: "";
-    position: absolute;
-    left: -7px;
-    top: 1rem;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+  .story-intro__rule {
+    display: block;
+    width: 2.75rem;
+    height: 1px;
+    margin: 2rem auto;
     background: #c9a96a;
   }
-  .timeline__date {
-    display: block;
-    font-size: 0.95rem;
+  .story-intro__note {
+    margin: 0;
     color: rgba(0, 0, 0, 0.45);
-    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+    line-height: 1.8;
   }
-  .timeline__title {
-    display: block;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.2;
-    margin-top: 0.1rem;
-  }
-  .timeline__title--todo {
-    color: rgba(0, 0, 0, 0.35);
-    font-style: italic;
-  }
-  .timeline__photos {
-    margin-top: 0.6rem;
-    max-width: 420px;
-  }
-  /* Photo groups break out of the narrow column and stretch to the right
-     edge of the viewport. Left edge stays aligned with the text column. */
-  .timeline__photos--group {
-    max-width: none;
-    width: calc(
-      100vw - (100vw - min(640px, 100vw)) / 2 - 1.25rem - 1.5rem - 1rem
-    );
+  .story-intro__note span {
+    margin: 0 0.5rem;
   }
   .back {
-    margin-top: 2.5rem;
+    margin: 3rem 0 0;
     text-align: center;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 768px) {
+    .historia {
+      padding-top: 2.5rem;
+    }
+    .story-intro {
+      padding: 1rem 0 3.25rem;
+    }
+    .story-intro__subtitle {
+      font-size: 0.9rem;
+    }
   }
 </style>

@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change rebuild-astro-port-landing. Update Purpose after archive.
+Define the calendar-based Polish countdown before the wedding and its wedding-day
+state. No separate post-event presentation is required by this contract.
 
 ## Requirements
 
@@ -34,9 +35,9 @@ The countdown SHALL apply correct Polish pluralization for years, months, and da
 - **WHEN** a unit (years, months, or days) is zero
 - **THEN** that unit is omitted and the remaining units are joined naturally with commas and "i"
 
-### Requirement: Wedding-day and past states
+### Requirement: Wedding-day state
 
-The countdown SHALL show an appropriate message on and after the wedding date.
+The countdown SHALL show "dzisiaj" on the wedding date instead of a remaining duration.
 
 #### Scenario: On the wedding day
 
