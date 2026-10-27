@@ -2,13 +2,14 @@
 
 ## Purpose
 
-TBD - created by archiving change add-guest-info-pages. Update Purpose after archive.
+Define direct-link logistics pages for guest groups and their indexing boundary,
+using the accommodation and travel arrangements currently authored for each group.
 
 ## Requirements
 
 ### Requirement: Hidden per-group logistics pages
 
-The site SHALL provide hidden, direct-link-only pages for specific guest groups, each showing that group's hotel and its group-specific outbound bus, plus the RSVP note. These pages SHALL be excluded from navigation.
+The site SHALL provide hidden, direct-link-only pages for specific guest groups, each showing its authored accommodation or gathering place, travel guidance, and RSVP note. These pages SHALL be excluded from ordinary public navigation.
 
 #### Scenario: Out-of-town guests page
 
@@ -18,12 +19,14 @@ The site SHALL provide hidden, direct-link-only pages for specific guest groups,
 #### Scenario: Venue-overnight guests page
 
 - **WHEN** a visitor opens `/villa-presto-nocleg`
-- **THEN** it shows Villa Presto / Karczma overnight details (Saturday only) and that group's transfer to the church
+- **THEN** it shows Villa Presto / Karczma overnight details for Saturday to Sunday and provisional Sunday breakfast information
+- **AND** it instructs guests to arrange their own travel to and from the church, with earlier contact if they need a seat on the shared return coach
 
 #### Scenario: Poprawiny page
 
 - **WHEN** a visitor opens `/poprawiny`
-- **THEN** it shows the Sunday afterparty at Siedlisko Cztery Drogi, the optional Sun→Mon extra night, and the small bus to Grodzisko and Rzeszów
+- **THEN** it shows the Sunday gathering at Siedlisko Cztery Drogi, travel from Rzeszów via Grodzisko and the surrounding area, and return arrangements
+- **AND** it explains that Sunday-to-Monday accommodation remains in Rzeszów and marks provisional bus details as tentative
 
 ### Requirement: Hidden pages excluded from indexing
 
@@ -41,23 +44,7 @@ Hidden guest-group pages SHALL be marked to prevent search-engine indexing and S
 
 ## Notes
 
-### Content architecture trade-off (`src/data/*.ts`)
-
-Site content (guest groups, timeline, FAQ, plan, transport) lives in typed
-`src/data/*.ts` arrays rendered by components, rather than the more idiomatic
-Astro patterns — inline HTML in `.astro` files for small one-off content, or
-Content Collections (Markdown/MDX + Zod) for entry-style content like the
-timeline. This is a deliberate, acknowledged choice, not a requirement of Astro.
-
-- **Why:** the site was built through many rapid, small content edits
-  (rename/merge/reorder timeline entries, tweak copy). Editing one typed array
-  is faster and less error-prone than hand-editing nested JSX. `groups.ts`
-  genuinely earns its keep by driving both the hidden pages and the preview
-  panel from a single source of truth.
-- **Cost:** more `.ts` files than a static wedding site strictly needs; some
-  (`faq.ts`, `plan.ts`) are used exactly once, so the data layer is arguably
-  overkill for them.
-- **Decision:** keep as-is (works, typed, content easy to edit in one place). To
-  make the repo read as idiomatic Astro later, fold `faq.ts`/`plan.ts` into
-  their components and move `timeline` to a Content Collection. The unused
-  `venues` export in `site.ts` was removed as dead code.
+The acknowledged typed-content trade-off is recorded in
+[ADR-0001](../../../docs/adr/0001-typed-content-for-editing.md). Current content
+ownership and explicit route/slug wiring are in
+[architecture](../../../docs/architecture.md#routes-and-content-owners).

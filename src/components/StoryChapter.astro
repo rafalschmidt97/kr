@@ -1,0 +1,313 @@
+---
+import type { StoryChapter } from "../data/story";
+import Slideshow from "./Slideshow.astro";
+
+interface Props {
+  chapter: StoryChapter;
+}
+
+const { chapter } = Astro.props;
+const headingId = `chapter-${chapter.number}`;
+---
+
+<section
+  class:list={["chapter", `chapter--${chapter.layout}`]}
+  aria-labelledby={headingId}
+>
+  <div class="chapter__copy">
+    <p class="chapter__number">Rozdział {chapter.number}</p>
+    <h2 id={headingId}>{chapter.title}</h2>
+    <p class="chapter__subtitle">
+      {chapter.subtitle}
+    </p>
+    <div class="chapter__text">
+      {chapter.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+
+  {
+    chapter.photos.length > 0 && (
+      <div
+        class="chapter__photos"
+        role="group"
+        aria-label={`Zdjęcia do rozdziału ${chapter.number}`}
+      >
+        {chapter.photos.map((photo) => (
+          <figure class="chapter__photo">
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    chapter.morePhotos && chapter.morePhotos.length > 0 && (
+      <div
+        class="chapter__more"
+        aria-label="Więcej wspomnień ze studenckich lat"
+      >
+        <Slideshow
+          photos={chapter.morePhotos}
+          alt="Wspomnienie ze studenckich lat"
+          height={210}
+        />
+        <p class="chapter__swipe">Więcej wspomnień — przesuń zdjęcia</p>
+      </div>
+    )
+  }
+
+  {
+    chapter.photoPlaceholder && (
+      <div
+        class="chapter__unwritten-photo"
+        aria-label={chapter.photoPlaceholder}
+      >
+        <span class="chapter__unwritten-date" aria-hidden="true">
+          10 / 07 / 2027
+        </span>
+        <span class="chapter__unwritten-mark">Ciąg dalszy nastąpi</span>
+        <span class="chapter__placeholder-label">
+          {chapter.photoPlaceholder}
+        </span>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .chapter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2.5rem 3.75rem;
+    padding: 4.75rem 0;
+    border-top: 1px solid #eadfd6;
+  }
+  .chapter > * {
+    min-width: 0;
+  }
+  .chapter__number {
+    margin: 0 0 1rem;
+    color: #947944;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .chapter h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.2vw, 2.65rem);
+    line-height: 1.18;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .chapter__subtitle {
+    margin: 0.85rem 0 1.75rem;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .chapter__text {
+    color: rgba(0, 0, 0, 0.73);
+    font-size: 0.98rem;
+    line-height: 1.85;
+  }
+  .chapter__text p {
+    margin: 0 0 1rem;
+  }
+  .chapter__text p:last-child {
+    margin-bottom: 0;
+  }
+  .chapter__photos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    align-items: start;
+  }
+  .chapter__photo {
+    margin: 0;
+    min-width: 0;
+  }
+  .chapter__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    background: #faf8f6;
+  }
+  .chapter--beginning .chapter__photo:nth-child(2) {
+    margin-top: 3.5rem;
+  }
+  .chapter--study .chapter__copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .chapter--study .chapter__photos {
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.25rem;
+    background: #faf8f6;
+    border-radius: 8px;
+  }
+  .chapter__more {
+    grid-column: 1 / -1;
+    overflow: hidden;
+  }
+  .chapter__swipe {
+    margin: 0.75rem 0 0;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 0.75rem;
+  }
+  .chapter--movement {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .chapter--movement .chapter__copy {
+    max-width: 640px;
+  }
+  .chapter--movement .chapter__photos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 1rem;
+  }
+  .chapter--movement .chapter__photo:nth-child(3n + 2) {
+    transform: translateY(1.5rem);
+  }
+  .chapter--city {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+  .chapter--city .chapter__photos {
+    align-items: center;
+  }
+  .chapter--city .chapter__photo:nth-child(2) {
+    margin-top: 3rem;
+  }
+  .chapter--engagement {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .chapter--engagement .chapter__copy {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .chapter--engagement .chapter__photos {
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .chapter--engagement .chapter__photo:nth-child(2) {
+    padding: 1rem;
+    background: #faf8f6;
+    border-radius: 8px;
+  }
+  .chapter--life .chapter__copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .chapter--life .chapter__photos {
+    grid-column: 1;
+    grid-row: 1;
+    align-items: center;
+  }
+  .chapter--life .chapter__photo:first-child {
+    grid-column: 1 / -1;
+    width: 85%;
+    justify-self: center;
+    transform: rotate(-2deg);
+    margin-bottom: 0.5rem;
+  }
+  .chapter--life .chapter__photo:nth-child(3) {
+    transform: rotate(2deg);
+  }
+  .chapter--unwritten {
+    padding-bottom: 3rem;
+  }
+  .chapter__unwritten-photo {
+    min-height: 300px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    border: 1px solid #eadfd6;
+    border-radius: 8px;
+    background: #faf8f6;
+  }
+  .chapter__unwritten-date {
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+  }
+  .chapter__unwritten-mark {
+    color: #947944;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .chapter__placeholder-label {
+    max-width: 15rem;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    color: rgba(0, 0, 0, 0.45);
+  }
+  @media (max-width: 768px) {
+    .chapter,
+    .chapter--city {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 3.25rem 0;
+    }
+    .chapter--study .chapter__copy,
+    .chapter--study .chapter__photos,
+    .chapter--life .chapter__copy,
+    .chapter--life .chapter__photos {
+      grid-column: auto;
+      grid-row: auto;
+    }
+    .chapter__copy {
+      max-width: 640px;
+    }
+    .chapter h2 {
+      font-size: clamp(1.85rem, 7vw, 2.5rem);
+    }
+    .chapter__text {
+      font-size: 0.95rem;
+      line-height: 1.85;
+    }
+    .chapter__photos {
+      gap: 0.65rem;
+    }
+    .chapter--movement .chapter__photos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+    .chapter--movement .chapter__photo:nth-child(3n + 2) {
+      transform: none;
+    }
+    .chapter--movement .chapter__photo:nth-child(even) {
+      transform: translateY(1rem);
+    }
+    .chapter--engagement .chapter__photos {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+    .chapter--engagement .chapter__photo:nth-child(2) {
+      width: 75%;
+      justify-self: end;
+      padding: 0.65rem;
+    }
+    .chapter__unwritten-photo {
+      min-height: 230px;
+    }
+  }
+</style>

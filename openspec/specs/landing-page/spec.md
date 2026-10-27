@@ -2,13 +2,14 @@
 
 ## Purpose
 
-TBD - created by archiving change rebuild-astro-port-landing. Update Purpose after archive.
+Define the homepage hero, photo background, calendar/map links, plan and FAQ
+navigation, and responsive presentation.
 
 ## Requirements
 
 ### Requirement: Landing page content
 
-The landing page SHALL display the couple names "Klaudia & Rafał" and the Polish intro copy describing the wedding date and venue, and SHALL form the top (hero) section of a single scrolling page that also contains the plan, transport, and FAQ sections.
+The landing page SHALL display the couple names "Klaudia & Rafał" and the Polish intro copy describing the wedding date and venue, and SHALL form the top (hero) section of a single scrolling page that also contains the plan and FAQ sections.
 
 #### Scenario: Landing renders core content
 
@@ -20,7 +21,7 @@ The landing page SHALL display the couple names "Klaudia & Rafał" and the Polis
 
 - **WHEN** the site root loads
 - **THEN** the hero is the first section
-- **AND** anchor navigation is available to reach the plan, transport, and FAQ sections on the same page
+- **AND** anchor navigation is available to reach the plan and FAQ sections on the same page, with a link to the separate story page
 
 ### Requirement: Background photo slideshow
 

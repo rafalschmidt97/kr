@@ -2,7 +2,9 @@
 
 ## Purpose
 
-TBD - created by archiving change rebuild-astro-port-landing. Update Purpose after archive.
+Define static generation, build-only PR validation, and GitHub Pages delivery
+to the custom domain. Operator authorization is governed by
+[the contribution guide](../../../docs/contributing.md#authorization-and-git).
 
 ## Requirements
 
@@ -54,3 +56,26 @@ Built asset URLs SHALL resolve correctly on the custom domain without a post-bui
 - **WHEN** the site is built and deployed
 - **THEN** CSS, images, and downloadable files load correctly
 - **AND** no post-build string-replacement step (e.g. `reprec`) is required
+
+### Requirement: Pull request build validation
+
+Pull requests targeting main SHALL run npm ci and the static production build with read-only repository permissions and no Pages deployment.
+
+#### Scenario: Editing branch updated
+
+- **WHEN** a pull request targeting main is opened or updated
+- **THEN** CI validates its build without publishing the site
+
+### Requirement: Manual editing-branch deployment
+
+The existing manual Pages workflow SHALL build the selected ref. The github-pages environment SHALL allow main and the designated editing branch. Publishing the editing branch SHALL replace the existing public site at klaudiarafal.pl without merging.
+
+#### Scenario: Explicit publication request
+
+- **WHEN** an authorized operator dispatches Deploy on the allowed editing branch after a publication request
+- **THEN** the branch is built and deployed to the existing public domain without merging
+
+#### Scenario: Restore main
+
+- **WHEN** an authorized operator manually dispatches Deploy on main
+- **THEN** the current main build replaces the previously published editing branch

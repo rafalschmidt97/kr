@@ -2,13 +2,14 @@
 
 ## Purpose
 
-TBD - created by archiving change add-guest-info-pages. Update Purpose after archive.
+Define public plan/FAQ anchor navigation, direct-link pages, and the optional
+hidden-page menu.
 
 ## Requirements
 
 ### Requirement: Single-page anchor navigation
 
-The main site SHALL be a single scrolling page whose primary sections (hero, plan, transport, FAQ) are reachable via anchor navigation, with a link to the separate Our Story page.
+The homepage SHALL provide anchor navigation to its plan and FAQ sections, with a link to the separate Our Story page.
 
 #### Scenario: Anchor navigation jumps to sections
 
@@ -51,7 +52,15 @@ The site SHALL support a client-side preview flag that reveals links to the hidd
 #### Scenario: Preview choice is remembered
 
 - **WHEN** the preview flag has been activated once in the browser
+- **AND** browser storage is available
 - **THEN** the preview panel remains available on subsequent visits without re-adding the query parameter
+
+#### Scenario: Browser storage unavailable
+
+- **WHEN** preview preference storage cannot be read or written
+- **THEN** `?preview=1` still enables the control for the current page, while `?preview=0` disables it
+- **AND** the off button still hides the control and closes its menu
+- **AND** a visit without the flag or a readable stored preference leaves the control hidden
 
 #### Scenario: Regular visitors unaffected
 

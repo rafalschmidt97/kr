@@ -1,0 +1,512 @@
+---
+import { predictionQuestions } from "../data/predictions";
+---
+
+<section
+  class="predictions"
+  id="wedding-predictions"
+  data-wedding-predictions
+  aria-labelledby="predictions-title"
+>
+  <div class="predictions__inner">
+    <header class="predictions__header">
+      <p class="predictions__eyebrow">Weselne przewidywania</p>
+      <h2 id="predictions-title">Studium kontrolowanego chaosu</h2>
+      <p class="predictions__subtitle">
+        Starannie zaplanowane. Całkowicie nieprzewidywalne.
+      </p>
+      <p class="predictions__intro">
+        Zanim sprawdzimy, co przyniesie ten dzień, czas na Twoje przewidywania.
+      </p>
+    </header>
+
+    <p class="predictions__notice" id="predictions-preview-notice">
+      To tylko podgląd zabawy. Odpowiedzi i imię nie są wysyłane ani trwale
+      zapisywane. Pozostają wyłącznie w pamięci tej strony i znikną po jej
+      odświeżeniu lub zamknięciu.
+    </p>
+
+    <div
+      class="predictions__card"
+      aria-describedby="predictions-preview-notice"
+    >
+      <div class="predictions__progress" data-prediction-progress hidden>
+        <p
+          data-prediction-status
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+        </p>
+        <progress
+          data-prediction-meter
+          aria-label="Postęp podglądu"
+          max={predictionQuestions.length + 2}
+          value="1"></progress>
+      </div>
+
+      {
+        predictionQuestions.map((item, index) => (
+          <fieldset
+            class="predictions__question"
+            data-prediction-step
+            data-prediction-question
+            aria-describedby={`prediction-error-${item.id}`}
+          >
+            <legend tabindex="-1" data-prediction-focus>
+              <span class="predictions__number">
+                Pytanie {index + 1} z {predictionQuestions.length}
+              </span>
+              {item.question}
+            </legend>
+            <div class="predictions__choices">
+              {item.choices.map((choice, choiceIndex) => (
+                <label class="predictions__choice">
+                  <input
+                    type="radio"
+                    name={`prediction-${item.id}`}
+                    value={String(choiceIndex)}
+                    autocomplete="off"
+                  />
+                  <span data-prediction-choice-text>{choice}</span>
+                </label>
+              ))}
+            </div>
+            <p
+              class="predictions__error"
+              id={`prediction-error-${item.id}`}
+              data-prediction-error
+              aria-live="polite"
+              aria-atomic="true"
+            />
+          </fieldset>
+        ))
+      }
+
+      <div class="predictions__name-step" data-prediction-step>
+        <h3 tabindex="-1" data-prediction-focus>
+          Jak podpisać Twoje przewidywania?
+        </h3>
+        <p class="predictions__hint">
+          Jeśli chcesz, wpisz imię. Możesz też przejść dalej bez podpisu.
+        </p>
+        <label class="predictions__name-label" for="prediction-name">
+          Imię <span>(opcjonalnie)</span>
+        </label>
+        <input
+          class="predictions__name-input"
+          id="prediction-name"
+          data-prediction-name
+          type="text"
+          maxlength="80"
+          autocomplete="off"
+          aria-describedby="prediction-name-hint"
+        />
+        <p class="predictions__hint" id="prediction-name-hint">
+          Imię również pozostaje tylko w tym podglądzie.
+        </p>
+      </div>
+
+      <div
+        class="predictions__review"
+        data-prediction-step
+        data-prediction-review
+        hidden
+      >
+        <h3 tabindex="-1" data-prediction-focus>Twoje przewidywania</h3>
+        <p class="predictions__hint">Możesz jeszcze zmienić każdą odpowiedź.</p>
+        <dl class="predictions__review-list">
+          {
+            predictionQuestions.map((item, index) => (
+              <div class="predictions__review-item">
+                <dt>{item.question}</dt>
+                <dd data-prediction-answer={index}>Nie wybrano odpowiedzi.</dd>
+                <dd class="predictions__edit">
+                  <button
+                    type="button"
+                    class="predictions__text-button"
+                    data-prediction-edit={index}
+                    aria-label={`Zmień odpowiedź na pytanie ${index + 1}`}
+                  >
+                    Zmień odpowiedź
+                  </button>
+                </dd>
+              </div>
+            ))
+          }
+          <div class="predictions__review-item">
+            <dt>Podpis</dt>
+            <dd data-prediction-signature>Bez podpisu</dd>
+            <dd class="predictions__edit">
+              <button
+                type="button"
+                class="predictions__text-button"
+                data-prediction-edit={predictionQuestions.length}
+              >
+                Zmień podpis
+              </button>
+            </dd>
+          </div>
+        </dl>
+        <p class="predictions__notice" id="prediction-save-notice">
+          To nadal tylko podgląd. Nic nie zostało wysłane ani trwale zapisane.
+          Zapisywanie przewidywań nie jest jeszcze dostępne.
+        </p>
+        <button
+          class="predictions__button predictions__button--save"
+          type="button"
+          disabled
+          aria-describedby="prediction-save-notice"
+        >
+          Zapisywanie niedostępne w podglądzie
+        </button>
+      </div>
+
+      <div class="predictions__navigation" data-prediction-navigation hidden>
+        <button
+          type="button"
+          class="predictions__button predictions__button--back"
+          data-prediction-back
+        >
+          Wstecz
+        </button>
+        <button
+          type="button"
+          class="predictions__button predictions__button--next"
+          data-prediction-next
+        >
+          Dalej
+        </button>
+      </div>
+      <button
+        type="button"
+        class="predictions__text-button predictions__reset"
+        data-prediction-reset
+        hidden
+      >
+        Wyczyść odpowiedzi i zacznij od nowa
+      </button>
+
+      <noscript>
+        <p class="predictions__notice">
+          Bez JavaScriptu możesz przeczytać wszystkie pytania. Przechodzenie
+          między krokami i podsumowanie wymagają JavaScriptu. Nic nie jest
+          wysyłane ani trwale zapisywane.
+        </p>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initPredictions } from "../scripts/predictions";
+
+  initPredictions();
+</script>
+
+<style>
+  .predictions {
+    padding: clamp(3.5rem, 8vw, 7rem) 1.25rem;
+    background: #faf8f6;
+    color: #34322f;
+  }
+
+  .predictions [hidden] {
+    display: none !important;
+  }
+
+  .predictions__inner {
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .predictions__header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .predictions__eyebrow {
+    margin: 0 0 1.15rem;
+    color: #766242;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .predictions h2 {
+    margin: 0;
+    font-size: clamp(1.85rem, 5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .predictions__subtitle {
+    margin: 1rem 0 0;
+    color: #77716a;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .predictions__intro {
+    max-width: 31rem;
+    margin: 1.5rem auto 0;
+    color: #716b64;
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .predictions__notice {
+    margin: 0 0 1.5rem;
+    padding: 0.9rem 1rem;
+    border-left: 2px solid #c9a96a;
+    border-radius: 0 8px 8px 0;
+    background: #f2eee7;
+    color: #655d52;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .predictions__card {
+    padding: clamp(1.25rem, 5vw, 2.5rem);
+    border: 1px solid #eae4dc;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .predictions__progress {
+    margin-bottom: 2rem;
+  }
+
+  .predictions__progress p {
+    margin: 0 0 0.75rem;
+    color: #77716a;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .predictions progress {
+    display: block;
+    width: 100%;
+    height: 3px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 3px;
+    background: #eee9e2;
+    accent-color: #c9a96a;
+  }
+
+  .predictions progress::-webkit-progress-bar {
+    background: #eee9e2;
+  }
+
+  .predictions progress::-webkit-progress-value {
+    background: #c9a96a;
+  }
+
+  .predictions progress::-moz-progress-bar {
+    background: #c9a96a;
+  }
+
+  .predictions__question {
+    min-width: 0;
+    margin: 0 0 2rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .predictions__question legend,
+  .predictions h3 {
+    width: 100%;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    font-size: clamp(1.1rem, 3vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+  }
+
+  .predictions__number {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: #77716a;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+
+  .predictions__choices {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .predictions__choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1rem;
+    border: 1px solid #e7e2db;
+    border-radius: 12px;
+    color: #615c56;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    cursor: pointer;
+  }
+
+  .predictions__choice:hover {
+    border-color: #c9a96a;
+    background: #fdfbf8;
+  }
+
+  .predictions__choice:has(input:checked) {
+    border-color: #c9a96a;
+    background: #faf6ee;
+    color: #403b34;
+  }
+
+  .predictions__choice input {
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin: 0.22rem 0 0;
+    accent-color: #8a7042;
+  }
+
+  .predictions__error {
+    margin: 0.8rem 0 0;
+    color: #965336;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .predictions__error:empty {
+    margin: 0;
+  }
+
+  .predictions__hint {
+    margin: 0 0 1.25rem;
+    color: #77716a;
+    font-size: 0.84rem;
+    line-height: 1.75;
+  }
+
+  .predictions__name-label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+  }
+
+  .predictions__name-label span {
+    color: #77716a;
+  }
+
+  .predictions__name-input {
+    width: 100%;
+    min-height: 3rem;
+    margin-bottom: 0.7rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid #d9d1c6;
+    border-radius: 10px;
+    color: inherit;
+    background: #fff;
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  .predictions__navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .predictions__button,
+  .predictions__text-button {
+    min-height: 2.75rem;
+    font: inherit;
+    font-size: 0.83rem;
+    cursor: pointer;
+  }
+
+  .predictions__button {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #ddd5c9;
+    border-radius: 10px;
+    background: #fff;
+    color: #5c554c;
+  }
+
+  .predictions__button--next {
+    margin-left: auto;
+    border-color: #c9a96a;
+    background: #f3ede2;
+    color: #51432d;
+  }
+
+  .predictions__button:not(:disabled):hover {
+    border-color: #ac8b50;
+    background: #f5efe5;
+  }
+
+  .predictions__button:disabled {
+    color: #78716a;
+    background: #f3f0eb;
+    cursor: not-allowed;
+  }
+
+  .predictions__button--save {
+    width: 100%;
+    line-height: 1.6;
+  }
+
+  .predictions__text-button {
+    padding: 0.4rem 0;
+    border: 0;
+    background: transparent;
+    color: #79613a;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .predictions__reset {
+    display: block;
+    margin: 1.25rem auto 0;
+    color: #77716a;
+    font-size: 0.75rem;
+  }
+
+  .predictions__review-list {
+    margin: 0 0 1.75rem;
+  }
+
+  .predictions__review-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee9e2;
+  }
+
+  .predictions__review-item dt {
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  .predictions__review-item dd {
+    margin: 0.5rem 0 0;
+    color: #716b64;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  .predictions__review-item .predictions__edit {
+    margin-top: 0.15rem;
+  }
+
+  .predictions :is(button, input, legend, h3):focus-visible {
+    outline: 2px solid #8a7042;
+    outline-offset: 4px;
+  }
+</style>
